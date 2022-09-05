@@ -1,12 +1,17 @@
-import NavBar from "./navigation/NavBar";
+import NavBar from "./components/NavBar";
 import LinkCard from "./pages/LinkCard";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 function App() {
   return (
-    <>
-    <NavBar></NavBar>
-    <LinkCard></LinkCard>
-    </>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path = '/'/>
+        <Route path = '/add-card' element = {<LinkCard/>} />
+      </Routes>
+    </BrowserRouter>
+    
   );
 }
 export default App;
