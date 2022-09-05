@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { ComponentType } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../App';
 
