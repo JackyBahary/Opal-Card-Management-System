@@ -32,9 +32,9 @@ function LoginRegister({ Login, Register }) {
         Login 
       </p>
       {errorMessage && (
-        alert(errorMessage)
+        <div className="rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 b-2 text-white font-bold">{errorMessage}</div>
       )}
-      <div className=" justify-self-center w-full grid-cols-2 pb-8">
+      <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6">
         <label className="text-white text-2xl p-8 w-100">Email</label>
         <input className="rounded-l text-2xl w-max" 
           value={email} 
