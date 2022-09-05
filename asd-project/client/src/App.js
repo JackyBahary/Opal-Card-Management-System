@@ -1,12 +1,23 @@
 import NavBar from "./components/NavBar";
 import LinkCard from "./pages/LinkCard";
+import Home from "./pages/Home";
 import LoginRegister from "./pages/LoginRegister";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
+import ProtectRoute from "./components/ProtectedRoute"
+
+const AuthContext = createContext();
+
+function useAuth() {
+  return useContext(AuthContext);
+}
+
+const ProtectedLinkCard = ProtectRoute(LinkCard);
+const ProtectedHome = ProtectRoute(Home);
 
 function App() {
   const [auth, setAuth] = useState();
-
+  
   async function Login(email, password) {
     const response = await fetch('http://localhost:8000/api/login', {
       method: 'POST',
@@ -35,17 +46,21 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route path = '/'/>
-        <Route path = '/add-card' element = {<LinkCard/>} />
-        <Route path = '/login-register' element = {
-          <LoginRegister Login={Login} Register={Register} />
-        } />
-      </Routes>
-    </BrowserRouter>
+    <AuthContext.Provider value={auth}>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path = '/' element = {
+            <LoginRegister Login={Login} Register={Register} />
+          } />
+          <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
+          <Route path = '/home' element = {<ProtectedHome/>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
     
   );
 }
+
+export { useAuth };
 export default App;

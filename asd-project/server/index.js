@@ -50,4 +50,8 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+app.get('/', async (req, res) => {
+  res.json("test");
+});
+
 app.listen(8000);
