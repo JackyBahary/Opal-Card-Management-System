@@ -1,0 +1,24 @@
+{
+  "name": "41026-asd-wed-group-2",
+  "version": "1.0.0",
+  "description": "Opal Card Management System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JackyBahary/41026-ASD-Wed-Group-2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JackyBahary/41026-ASD-Wed-Group-2/issues"
+  },
+  "homepage": "https://github.com/JackyBahary/41026-ASD-Wed-Group-2#readme",
+  "dependencies": {
+    "npx": "^10.2.2",
+    "reach": "^1.0.1",
+    "react": "^18.2.0"
+  }
+}
