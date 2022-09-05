@@ -1,5 +1,6 @@
-import NavBar from "./NavBar";
-import LinkCard from "./LinkCard";
+import NavBar from "./navigation/NavBar";
+import LinkCard from "./pages/LinkCard";
+
 function App() {
   return (
     <>
