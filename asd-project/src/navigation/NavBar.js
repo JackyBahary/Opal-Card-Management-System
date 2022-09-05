@@ -5,9 +5,10 @@ function NavBar() {
         Opal Card Manager
       </p>
         <span className="justify-end space-x-2">
-        <button className=" rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 text-white font-extrabold">function 1</button>
-        <button className=" rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 text-white font-extrabold">function 2</button>
-        <button className=" rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 text-white font-extrabold">function 3</button>
+        <button className=" rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 text-white font-extrabold">Link Card</button>
+        <button className=" rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 text-white font-extrabold">View Card</button>
+        <button className=" rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 text-white font-extrabold">View Account</button>
+        <button className=" rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 text-white font-extrabold">View Saved Trips</button>
         </span>
     </div>
   );
