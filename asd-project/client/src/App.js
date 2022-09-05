@@ -5,7 +5,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 
 function App() {
-  const [auth, setAuth] = useState<string>();
+  const [auth, setAuth] = useState();
 
   async function Login(email, password) {
     const response = await fetch('http://localhost:8000/api/login', {
