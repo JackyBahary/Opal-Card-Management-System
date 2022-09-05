@@ -8,18 +8,11 @@ function LinkCard() {
           <label className="text-white text-2xl p-8 w-100">Card Number</label>
           <input className="rounded-l text-2xl w-max"></input>
         </div>
-        <div className=" justify-self-center w-full grid-cols-2 pb-8">
-          <label className="text-white text-2xl p-8 w-100">Email</label>
-          <input className="rounded-l text-2xl w-max"></input>
-        </div>
-        <div className=" justify-self-center w-full grid-cols-2 pb-8">
-          <label className="text-white text-2xl p-8 w-100">Password</label>
-          <input className="rounded-l text-2xl w-max"></input>
-        </div>
         <div className="w-full">
-          <button className=" justify-center self-center rounded-xl text-center bg-gradient-to-r from-yellow-600 to-red-600 p-2 px-4 text-white font-extrabold">Login</button>
+          <button className=" justify-center self-center rounded-xl text-center bg-gradient-to-r from-yellow-600 to-red-600 p-2 px-4 text-white font-extrabold">Add Card</button>
         </div>
     </div>
   );
 }
+
 export default LinkCard;

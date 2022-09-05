@@ -11,7 +11,9 @@ function NavBar() {
           <Link to = '/'>
             <Button>Home</Button>
           </Link>
-          <Button>Login</Button>
+          <Link to = '/login-register'>
+            <Button>Login</Button>
+          </Link>
           <Button>Record Trip</Button>
           <Link to='/add-card'>
             <Button>Add Card</Button>
