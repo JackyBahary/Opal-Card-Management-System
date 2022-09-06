@@ -57,6 +57,7 @@ function App() {
           } />
           <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
           <Route path = '/home' element = {<ProtectedHome/>} />
+          <Route path = '/youraccount' element = {<ProtectedYourAccount/>} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
