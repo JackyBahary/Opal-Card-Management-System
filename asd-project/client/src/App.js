@@ -1,7 +1,6 @@
 import NavBar from "./components/NavBar";
 import LinkCard from "./pages/LinkCard";
 import Home from "./pages/Home";
-import YourAccount from "./pages/YourAccount";
 import LoginRegister from "./pages/LoginRegister";
 import RecordTrip from "./pages/RecordTrip";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
@@ -16,7 +15,6 @@ function useAuth() {
 
 const ProtectedLinkCard = ProtectRoute(LinkCard);
 const ProtectedHome = ProtectRoute(Home);
-const ProtectedYourAccount = ProtectRoute(YourAccount);
 const ProtectedRecordTrip = ProtectRoute(RecordTrip);
 
 function App() {
@@ -89,7 +87,6 @@ function App() {
           } />
           <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
           <Route path = '/home' element = {<ProtectedHome/>} />
-          <Route path = '/youraccount' element = {<ProtectedYourAccount/>} />
           <Route path = '/record-trip' element = {
             <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip}/>
           } />
