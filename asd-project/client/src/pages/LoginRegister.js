@@ -1,4 +1,31 @@
-function LoginRegister() {
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button"
+
+function LoginRegister({ Login, Register }) {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function HandleLogin() {
+    const success = await Login(email, password);
+    if (!success) {
+      setErrorMessage("Invalid email address or password.");
+    }
+    else {
+      navigate('/home');
+    }
+  }
+
+  // Handles the register button click.
+  async function HandleRegister() {
+    const success = await Register(email, password);
+    if (!success) {
+      setErrorMessage("Error. Unable to register the account.");
+    }
+  }
+
   return (
     <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
       <p className="text-4xl text-white font-bold mb-5 text-center pb-8">

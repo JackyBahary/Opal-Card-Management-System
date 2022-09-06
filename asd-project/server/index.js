@@ -50,4 +50,46 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// Cards route.
+app.post('/api/cards', async (req, res) => {
+  const { user } = req.body;
+  try {
+    const query = "SELECT * FROM cards WHERE email = $1";
+    const cards = await db.query(query, [user]);
+    res.json({ cards: cards.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+// Stations route.
+app.get('/api/stations', async (req, res) => {
+  try {
+    const query = "SELECT * FROM stations";
+    const stations = await db.query(query);
+    res.json({ stations: stations.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+// RecordTrip route.
+app.post('/api/record-trip', async (req, res) => {
+  const { card, fromStation, toStation } = req.body;
+  try {
+    const query = "INSERT INTO cardtrips (cardnumber, fromstation, tostation, date_time) VALUES ($1, $2, $3, timeofday())";
+    await db.query(query, [card, fromStation, toStation]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+
 app.listen(8000);
