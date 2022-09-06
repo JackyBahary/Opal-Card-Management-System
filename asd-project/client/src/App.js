@@ -3,7 +3,8 @@ import LinkCard from "./pages/LinkCard";
 import Home from "./pages/Home";
 import LoginRegister from "./pages/LoginRegister";
 import RecordTrip from "./pages/RecordTrip";
-import YourAccount from "./pages/YourAccount"
+import YourAccount from "./pages/YourAccount";
+import LostStolenCard from "./pages/LostStolenCard";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
@@ -18,6 +19,7 @@ const ProtectedLinkCard = ProtectRoute(LinkCard);
 const ProtectedHome = ProtectRoute(Home);
 const ProtectedRecordTrip = ProtectRoute(RecordTrip);
 const ProtectedYourAccount = ProtectRoute(YourAccount);
+const ProtectedLostStolenCard = ProtectRoute(LostStolenCard);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -92,9 +94,8 @@ function App() {
           <Route path = '/record-trip' element = {
             <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip}/>
           } />
-          <Route path = '/your-account' element = {
-            <ProtectedYourAccount/>
-          } />
+          <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
+          <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

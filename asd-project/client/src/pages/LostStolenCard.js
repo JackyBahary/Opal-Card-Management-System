@@ -17,10 +17,6 @@ function LostStolenCard() {
             <label className="text-white text-2xl p-8 w-100">Opal Card Number</label>
             <input className="rounded-l text-2xl w-max"></input>
           </div>
-          <div className=" justify-self-center w-full grid-cols-2 pb-8">
-            <label className="text-white text-2xl p-8 w-100">Opal Card PIN</label>
-            <input className="rounded-l text-2xl w-max"></input>
-          </div>
           <div className="w-full">
             <button className=" justify-center self-center rounded-xl text-center bg-gradient-to-r from-yellow-600 to-red-600 p-2 px-4 text-white font-extrabold">Submit</button>
           </div>
