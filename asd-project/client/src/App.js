@@ -2,6 +2,7 @@ import NavBar from "./components/NavBar";
 import LinkCard from "./pages/LinkCard";
 import Home from "./pages/Home";
 import LoginRegister from "./pages/LoginRegister";
+import RecordTrip from "./pages/RecordTrip";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
@@ -14,6 +15,7 @@ function useAuth() {
 
 const ProtectedLinkCard = ProtectRoute(LinkCard);
 const ProtectedHome = ProtectRoute(Home);
+const ProtectedRecordTrip = ProtectRoute(RecordTrip);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -45,6 +47,36 @@ function App() {
     return data.success;
   }
 
+  async function Cards(user) {
+    const response = await fetch('http://localhost:8000/api/cards', {
+      method: 'POST',
+      body: JSON.stringify({ user }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.cards;
+  }
+
+  async function Stations() {
+    const response = await fetch('http://localhost:8000/api/stations');
+    const data = await response.json();
+    return data.stations;
+  }
+
+  async function RecordTrip(card, fromStation, toStation) {
+    const response = await fetch('http://localhost:8000/api/record-trip', {
+      method: 'POST',
+      body: JSON.stringify({card, fromStation, toStation }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <BrowserRouter>
@@ -55,6 +87,9 @@ function App() {
           } />
           <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
           <Route path = '/home' element = {<ProtectedHome/>} />
+          <Route path = '/record-trip' element = {
+            <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip}/>
+          } />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
