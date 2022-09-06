@@ -11,7 +11,7 @@ function LoginRegister({ Login, Register }) {
   async function HandleLogin() {
     const success = await Login(email, password);
     if (!success) {
-      setErrorMessage("Invalid email or password.");
+      setErrorMessage("Invalid email address or password.");
     }
     else {
       navigate('/home');
