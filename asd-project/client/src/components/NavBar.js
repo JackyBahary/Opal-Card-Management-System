@@ -22,7 +22,9 @@ function NavBar() {
             <Button>Add Card</Button>
           </Link>
           <Button>Your Cards</Button>
-          <Button>Your Account</Button>
+          <Link to='/your-account'>
+            <Button>Your Account</Button>
+          </Link>
           <Button>Saved Trips</Button>
         </span>
       )}
