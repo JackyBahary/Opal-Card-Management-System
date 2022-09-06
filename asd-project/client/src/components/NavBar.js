@@ -26,6 +26,9 @@ function NavBar() {
             <Button>Your Account</Button>
           </Link>
           <Button>Saved Trips</Button>
+          <Link to = 'trip-history'>
+            <Button>Trip History</Button>
+          </Link>
         </span>
       )}
     </div>
