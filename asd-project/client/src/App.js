@@ -1,6 +1,7 @@
 import NavBar from "./components/NavBar";
 import LinkCard from "./pages/LinkCard";
 import Home from "./pages/Home";
+import YourAccount from "./pages/YourAccount";
 import LoginRegister from "./pages/LoginRegister";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
@@ -14,6 +15,7 @@ function useAuth() {
 
 const ProtectedLinkCard = ProtectRoute(LinkCard);
 const ProtectedHome = ProtectRoute(Home);
+const ProtectedYourAccount = ProtectRoute(YourAccount);
 
 function App() {
   const [auth, setAuth] = useState();
