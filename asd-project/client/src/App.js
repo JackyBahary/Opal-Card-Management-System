@@ -5,6 +5,7 @@ import LoginRegister from "./pages/LoginRegister";
 import RecordTrip from "./pages/RecordTrip";
 import YourAccount from "./pages/YourAccount";
 import LostStolenCard from "./pages/LostStolenCard";
+import TripHistory from "./pages/TripHistory";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
@@ -20,6 +21,7 @@ const ProtectedHome = ProtectRoute(Home);
 const ProtectedRecordTrip = ProtectRoute(RecordTrip);
 const ProtectedYourAccount = ProtectRoute(YourAccount);
 const ProtectedLostStolenCard = ProtectRoute(LostStolenCard);
+const ProtectedTripHistory = ProtectRoute(TripHistory);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -96,6 +98,7 @@ function App() {
           } />
           <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
           <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
+          <Route path = '/trip-history' element = {<ProtectedTripHistory/>} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
