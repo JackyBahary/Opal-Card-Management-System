@@ -83,6 +83,18 @@ function App() {
     return data.success;
   }
 
+  async function TripHistory(card) {
+    const response = await fetch('http://localhost:8000/api/trip-history', {
+      method: 'POST',
+      body: JSON.stringify({card}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.trips;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <BrowserRouter>
@@ -98,7 +110,8 @@ function App() {
           } />
           <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
           <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
-          <Route path = '/trip-history' element = {<ProtectedTripHistory/>} />
+          <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>
+          } />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

@@ -91,5 +91,19 @@ app.post('/api/record-trip', async (req, res) => {
   }
 });
 
+// TripHistory route.
+app.post('/api/trip-history', async (req, res) => {
+  const { card } = req.body;
+  try {
+    const query = "SELECT cardnumber, fromstation, tostation, date_time FROM cardtrips WHERE cardnumber = $1";
+    const trips = await db.query(query, [card]);
+    res.json({ trips: trips.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 
 app.listen(8000);
