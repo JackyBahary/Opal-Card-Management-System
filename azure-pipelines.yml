@@ -17,3 +17,16 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- task: Npm@1
+  displayName: npm run test
+  inputs:
+    command: 'custom'
+    workingDir: 'asd-project/client/'
+    customCommand: 'run test:ci'
+
+- task: PublishTestResults@2
+  displayName: 'supply npm test results to pipelines'
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: 'src/client-app/junit.xml'
