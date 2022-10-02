@@ -34,7 +34,8 @@ function TripHistory({Cards, TripHistory}) {
             <label className="text-white text-2xl p-8 w-100">Cards</label>
             <select className="rounded-l text-2xl w-max" 
             value={card} 
-            onChange={e => setCard(parseInt(e.target.value))}
+            onChange={e => {setCard(parseInt(e.target.value))
+            setClicked(false)}}
             >
               {
                 cards.map((card) => {
@@ -76,6 +77,11 @@ function TripHistory({Cards, TripHistory}) {
           </table>
         </div>
         )}
+        {
+          clicked && trips.length == 0 && (
+            <p className="text-white text-center text-2xl p-8 w-100">No Trips made for Card {card}</p>
+          )
+        }
     </div>
   );
 }
