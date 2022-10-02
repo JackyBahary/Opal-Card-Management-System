@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
 
-function LoginRegister({ Login, Register }) {
+function LoginRegister({ Login, AdminLogin, Register }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,6 +10,16 @@ function LoginRegister({ Login, Register }) {
 
   async function HandleLogin() {
     const success = await Login(email, password);
+    if (!success) {
+      setErrorMessage("Invalid email address or password.");
+    }
+    else {
+      navigate('/home');
+    }
+  }
+
+  async function HandleAdminLogin() {
+    const success = await AdminLogin(email, password);
     if (!success) {
       setErrorMessage("Invalid email address or password.");
     }
@@ -53,6 +63,9 @@ function LoginRegister({ Login, Register }) {
         <Button
           type='button' 
           onClick={HandleLogin}>Login</Button>
+        <Button
+          type='button' 
+          onClick={HandleAdminLogin}>Admin Login</Button>
         <Button
           type='button' 
           onClick={HandleRegister}>Register</Button>

@@ -11,9 +11,14 @@ import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
 
 const AuthContext = createContext();
+const AdminContext = createContext();
 
 function useAuth() {
   return useContext(AuthContext);
+}
+
+function useAdmin() {
+  return useContext(AdminContext);
 }
 
 const ProtectedLinkCard = ProtectRoute(LinkCard);
@@ -25,6 +30,7 @@ const ProtectedTripHistory = ProtectRoute(TripHistory);
 
 function App() {
   const [auth, setAuth] = useState();
+  const [admin, setAdmin] = useState();
   
   async function Login(email, password) {
     const response = await fetch('http://localhost:8000/api/login', {
@@ -37,6 +43,22 @@ function App() {
     const { authenticated } = await response.json();
     if (authenticated) {
       setAuth(email);
+    }
+    return authenticated;
+  }
+
+  async function AdminLogin(email, password) {
+    const response = await fetch('http://localhost:8000/api/admin-login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const { authenticated } = await response.json();
+    if (authenticated) {
+      setAuth(email);
+      setAdmin(true);
     }
     return authenticated;
   }
@@ -97,27 +119,30 @@ function App() {
 
   return (
     <AuthContext.Provider value={auth}>
-      <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path = '/' element = {
-            <LoginRegister Login={Login} Register={Register} />
-          } />
-          <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
-          <Route path = '/home' element = {<ProtectedHome/>} />
-          <Route path = '/record-trip' element = {
-            <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip}/>
-          } />
-          <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
-          <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
-          <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>
-          } />
-        </Routes>
-      </BrowserRouter>
+      <AdminContext.Provider value={admin}>
+        <BrowserRouter>
+          <NavBar />
+          <Routes>
+            <Route path = '/' element = {
+              <LoginRegister Login={Login} AdminLogin={AdminLogin} Register={Register} />
+            } />
+            <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
+            <Route path = '/home' element = {<ProtectedHome/>} />
+            <Route path = '/record-trip' element = {
+              <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip}/>
+            } />
+            <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
+            <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
+            <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>
+            } />
+          </Routes>
+        </BrowserRouter>
+      </AdminContext.Provider>
     </AuthContext.Provider>
     
   );
 }
 
 export { useAuth };
+export { useAdmin };
 export default App;
