@@ -36,6 +36,20 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// Admin Login route.
+app.post('/api/admin-login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const query = "SELECT * FROM adminaccounts WHERE email = $1 AND password = $2";
+    const response = await db.query(query, [email, password]);
+    res.json({ authenticated: response.rowCount > 0 });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ authenticated: false });
+  }
+});
+
 // Register route.
 app.post('/api/register', async (req, res) => {
   const { email, password } = req.body;
