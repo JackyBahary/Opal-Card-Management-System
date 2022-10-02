@@ -9,6 +9,7 @@ import TripHistory from "./pages/TripHistory";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
+import AdminLostStolen from "./pages/Admin-lost-stolen";
 
 const AuthContext = createContext();
 const AdminContext = createContext();
@@ -27,6 +28,7 @@ const ProtectedRecordTrip = ProtectRoute(RecordTrip);
 const ProtectedYourAccount = ProtectRoute(YourAccount);
 const ProtectedLostStolenCard = ProtectRoute(LostStolenCard);
 const ProtectedTripHistory = ProtectRoute(TripHistory);
+const ProtectedAdminLostStolen = ProtectRoute(AdminLostStolen);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -133,8 +135,8 @@ function App() {
             } />
             <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
-            <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>
-            } />
+            <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
+            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
           </Routes>
         </BrowserRouter>
       </AdminContext.Provider>

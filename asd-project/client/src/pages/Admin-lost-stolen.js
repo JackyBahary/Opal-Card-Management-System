@@ -5,17 +5,29 @@ function AdminLostStolen() {
         <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
           Lost/Stolen Card Manager
         </p>
-          <div className=" justify-self-center w-full grid-cols-2 pb-8">
-            <label className="text-white text-2xl p-8 w-100">Full Name</label>
-            <input className="rounded-l text-2xl w-max"></input>
-          </div>
-          <div className=" justify-self-center w-full grid-cols-2 pb-8">
-            <label className="text-white text-2xl p-8 w-100">Email</label>
-            <input className="rounded-l text-2xl w-max"></input>
-          </div>
-          <div className=" justify-self-center w-full grid-cols-2 pb-8">
-            <label className="text-white text-2xl p-8 w-100">Opal Card Number</label>
-            <input className="rounded-l text-2xl w-max"></input>
+          <div className=" justify-self-center w-full pb-8">
+            <div className="overflow-scroll max-h-60 rounded-xl bg-white">
+            <div className="text-white text-2xl p-2 w-11/12 mx-auto items-center align-center self-center my-6 bg-gradient-to-r from-yellow-600 to-red-600 rounded-xl">
+              <p className="inline-block">card No</p>
+              <input className="inline-block float-right" type="checkbox"></input>
+              </div>
+              <div className="text-white text-2xl p-2 w-11/12 mx-auto my-6 bg-gradient-to-r from-yellow-600 to-red-600 rounded-xl">
+              <p className="inline-block">card No</p>
+              <input className="inline-block float-right" type="checkbox"></input>
+              </div>
+              <div className="text-white text-2xl p-2 w-11/12 mx-auto my-6 bg-gradient-to-r from-yellow-600 to-red-600 rounded-xl">
+              <p className="inline-block">card No</p>
+              <input className="inline-block float-right" type="checkbox"></input>
+              </div>
+              <div className="text-white text-2xl p-2 w-11/12 mx-auto my-6 bg-gradient-to-r from-yellow-600 to-red-600 rounded-xl">
+              <p className="inline-block">card No</p>
+              <input className="inline-block float-right" type="checkbox"></input>
+              </div>
+              <div className="text-white text-2xl p-2 w-11/12 mx-auto my-6 bg-gradient-to-r from-yellow-600 to-red-600 rounded-xl">
+              <p className="inline-block">card No</p>
+              <input className="inline-block float-right" type="checkbox"></input>
+              </div>
+            </div>
           </div>
           <div className="w-full">
             <button className=" justify-center self-center rounded-xl text-center bg-gradient-to-r from-yellow-600 to-red-600 p-2 px-4 text-white font-extrabold">Submit</button>

@@ -43,7 +43,7 @@ function NavBar() {
             <Link to = '/home'>
               <Button>Home</Button>
             </Link>
-            <Link to = '/lost-stolen'>
+            <Link to = '/admin-lost-stolen'>
               <Button>Lost/Stolen Manager</Button>
             </Link>
             <Link to = '/deactivate-card'>
