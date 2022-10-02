@@ -93,10 +93,10 @@ function App() {
     return data.stations;
   }
 
-  async function RecordTrip(card, fromStation, toStation) {
+  async function RecordTrip(card, fromStation, toStation, price) {
     const response = await fetch('http://localhost:8000/api/record-trip', {
       method: 'POST',
-      body: JSON.stringify({card, fromStation, toStation }),
+      body: JSON.stringify({card, fromStation, toStation, price }),
       headers: {
         'Content-Type': 'application/json'
       }

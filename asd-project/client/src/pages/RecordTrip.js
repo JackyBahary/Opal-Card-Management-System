@@ -37,7 +37,7 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
   }
 
   async function HandleRecord() {
-    const success = await RecordTrip(card, fromStation, toStation);
+    const success = await RecordTrip(card, fromStation, toStation, price);
     if (!success) {
       setErrorMessage("Error");
     }
@@ -107,7 +107,6 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
         <div className=" justify-self-center w-full grid-cols-2 pb-8">
             <label className="text-white text-2xl p-8 w-100">Price</label>
             <label className="text-white text-2xl p-8 w-100">${price}</label>           
-            
         </div>
         <div className="w-full">
             <Button

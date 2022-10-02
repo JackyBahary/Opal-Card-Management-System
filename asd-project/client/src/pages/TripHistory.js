@@ -51,13 +51,15 @@ function TripHistory({Cards, TripHistory}) {
         <p className="text-white text-center text-2xl p-8 w-100">Trips</p>
         {clicked && trips.length > 0 && (
           <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6">
-          <table className="text-white text-2xl p-8 w-100 table-auto">
+          <table className="text-white text-2xl p-8 w-100 table-auto content-evenly">
             <thead>
               <tr>
                 <th>Card Number</th>
                 <th>From Station</th>
                 <th>To Station</th>
                 <th>Date/Time</th>
+                <th className="pr-4">Price</th>
+                <th>Balance</th>
               </tr>
             </thead>
             <tbody>
@@ -68,7 +70,9 @@ function TripHistory({Cards, TripHistory}) {
                       <td key = {trips.cardnumber} value={trips.cardnumber}>{trips.cardnumber}</td>
                       <td key = {trips.fromstation} value={trips.fromstation}>{trips.fromstation}</td>
                       <td key = {trips.tostation} value={trips.tostation}>{trips.tostation}</td>
-                      <td key = {trips.date_time} value={trips.date_time}>{trips.date_time}</td>
+                      <td  key = {trips.date_time} value={trips.date_time}>{trips.date_time}</td>
+                      <td className="pl-2"  key = {trips.price} value={trips.price}>{trips.price}</td>
+                      <td key = {trips.balance} value={trips.balance}>{trips.balance}</td>
                     </tr>
                   )
                 })

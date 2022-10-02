@@ -93,10 +93,15 @@ app.get('/api/stations', async (req, res) => {
 
 // RecordTrip route.
 app.post('/api/record-trip', async (req, res) => {
-  const { card, fromStation, toStation } = req.body;
+  const { card, fromStation, toStation, price } = req.body;
   try {
-    const query = "INSERT INTO cardtrips (cardnumber, fromstation, tostation, date_time) VALUES ($1, $2, $3, timeofday())";
-    await db.query(query, [card, fromStation, toStation]);
+    const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
+    const balances = await db.query(balancequery, [card]);
+    const newBalance = balances.rows[0].balance - price;
+    const query = "INSERT INTO cardtrips (cardnumber, fromstation, tostation, date_time, balance, price) VALUES ($1, $2, $3, timeofday(), $4, $5)";
+    await db.query(query, [card, fromStation, toStation, newBalance, price]);
+    const updatequery = "UPDATE cards SET balance = $1 WHERE cardnumber = $2";
+    await db.query(updatequery, [newBalance, card]);
     res.json({ success: true });
   }
   catch (err) {
@@ -134,7 +139,7 @@ app.post('/api/get-price', async (req, res) => {
 app.post('/api/trip-history', async (req, res) => {
   const { card } = req.body;
   try {
-    const query = "SELECT cardnumber, fromstation, tostation, date_time FROM cardtrips WHERE cardnumber = $1";
+    const query = "SELECT cardnumber, fromstation, tostation, date_time, balance, price FROM cardtrips WHERE cardnumber = $1";
     const trips = await db.query(query, [card]);
     res.json({ trips: trips.rows });
   }
