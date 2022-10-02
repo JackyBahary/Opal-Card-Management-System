@@ -43,6 +43,12 @@ function NavBar() {
             <Link to = '/home'>
               <Button>Home</Button>
             </Link>
+            <Link to = '/home'>
+              <Button>Lost/Stolen Manager</Button>
+            </Link>
+            <Link to = '/home'>
+              <Button>Deactivate Card</Button>
+            </Link>
             <Button>Logout</Button>           
           </span>
         </div>
