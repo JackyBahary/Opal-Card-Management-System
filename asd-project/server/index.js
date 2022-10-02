@@ -105,6 +105,31 @@ app.post('/api/record-trip', async (req, res) => {
   }
 });
 
+// GetPrice route.
+app.post('/api/get-price', async (req, res) => {
+  const { fromStation, toStation } = req.body;
+  try {
+    const query = "SELECT id FROM stations WHERE stationname = $1 OR stationname = $2";
+    const ids = await db.query(query, [fromStation, toStation]);
+    if (ids.rowCount == 2) {
+      const distance = ids.rows[1].id - ids.rows[0].id;
+      for (let i = rates.length - 1; i >= 0; i--) {
+        if (rates[i].minDistance <= distance) {
+          return res.json({ price: rates[i].rate });
+        }
+      }
+    }
+    else {
+      res.json({ price: 0});
+    }
+    
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // TripHistory route.
 app.post('/api/trip-history', async (req, res) => {
   const { card } = req.body;
@@ -119,5 +144,14 @@ app.post('/api/trip-history', async (req, res) => {
   }
 });
 
+// Opal Card Fares July 2022.
+const rates = [
+  { minDistance: 0, rate: 3.79 },
+  { minDistance: 10, rate: 4.71 },
+  { minDistance: 20, rate: 5.42 },
+  { minDistance: 35, rate: 7.24 },
+  { minDistance: 65, rate: 9.31 }
+]
 
 app.listen(8000);
+

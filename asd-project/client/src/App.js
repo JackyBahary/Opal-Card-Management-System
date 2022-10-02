@@ -105,6 +105,18 @@ function App() {
     return data.success;
   }
 
+  async function GetPrice(fromStation, toStation) {
+    const response = await fetch('http://localhost:8000/api/get-price', {
+      method: 'POST',
+      body: JSON.stringify({fromStation, toStation}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.price;
+  }
+
   async function TripHistory(card) {
     const response = await fetch('http://localhost:8000/api/trip-history', {
       method: 'POST',
@@ -129,7 +141,7 @@ function App() {
             <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
             <Route path = '/home' element = {<ProtectedHome/>} />
             <Route path = '/record-trip' element = {
-              <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip}/>
+              <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
             <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />

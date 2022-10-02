@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
 import { useAuth } from "../App"
 
-function RecordTrip({ Cards, Stations, RecordTrip}) {
+function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
   const navigate = useNavigate();
   const user = useAuth();
   const [cards, setCards] = useState([]);
@@ -12,11 +12,16 @@ function RecordTrip({ Cards, Stations, RecordTrip}) {
   const [fromStation, setFromStation] = useState("");
   const [toStation, setToStation] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [price, setPrice] = useState();
 
   useEffect(() => {
     HandleCards()
     HandleStations()
   }, [])
+
+  useEffect(() => {
+    HandlePrice()
+  }, )
 
   async function HandleCards() {
     const cards = await Cards(user);
@@ -39,6 +44,11 @@ function RecordTrip({ Cards, Stations, RecordTrip}) {
     else {
       navigate('/home');
     }
+  }
+
+  async function HandlePrice() {
+    const price = await GetPrice(fromStation, toStation);
+    setPrice(price);
   }
 
   return (
@@ -93,6 +103,11 @@ function RecordTrip({ Cards, Stations, RecordTrip}) {
                 })
               }
             </select>
+        </div>
+        <div className=" justify-self-center w-full grid-cols-2 pb-8">
+            <label className="text-white text-2xl p-8 w-100">Price</label>
+            <label className="text-white text-2xl p-8 w-100">${price}</label>           
+            
         </div>
         <div className="w-full">
             <Button
