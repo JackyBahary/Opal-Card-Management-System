@@ -10,26 +10,30 @@ function NavBar() {
         Opal Card Manager
       </p>
       {(user !== undefined) && (
-        <span className="justify-end space-x-2">
-          <Link to = '/home'>
-            <Button>Home</Button>
-          </Link>
-          <Button>Logout</Button>
-          <Link to = 'record-trip'>
-            <Button>Record Trip</Button>
-          </Link>
-          <Link to='/add-card'>
-            <Button>Add Card</Button>
-          </Link>
-          <Button>Your Cards</Button>
-          <Link to='/your-account'>
-            <Button>Your Account</Button>
-          </Link>
-          <Button>Saved Trips</Button>
-          <Link to = 'trip-history'>
-            <Button>Trip History</Button>
-          </Link>
-        </span>
+        <div>
+          <span className="justify-end space-x-2">
+            <Link to = '/home'>
+              <Button>Home</Button>
+            </Link>
+            <Button>Logout</Button>
+            <Link to = 'record-trip'>
+              <Button>Record Trip</Button>
+            </Link>
+            <Link to='/add-card'>
+              <Button>Add Card</Button>
+            </Link>
+            <Button>Your Cards</Button>
+            <Link to='/your-account'>
+              <Button>Your Account</Button>
+            </Link>
+            <Button>Saved Trips</Button>
+          </span>
+          <span className="justify-end space-x-2">
+            <Link to = 'trip-history'>
+              <Button>Trip History</Button>
+            </Link>
+          </span>
+        </div>
       )}
     </div>
   );
