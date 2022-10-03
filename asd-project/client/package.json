@@ -36,8 +36,15 @@
       "last 1 safari version"
     ]
   },
+  "test:ci": "npm run test -- --watchAll=false --reporters=default --reporters=jest-junit",
+  "jest-junit": {
+    "suiteNameTemplate": "{filepath}",
+    "outputDirectory": ".",
+    "outputName": "junit.xml"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.8",
+    "jest-junit": "^14.0.1",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8"
   }
