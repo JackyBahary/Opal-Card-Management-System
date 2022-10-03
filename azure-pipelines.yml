@@ -12,6 +12,8 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+- script: npm i
+  displayName: Installing Modules
 - script: npx cypress run
   displayName: 'Testing View History Page'
 
