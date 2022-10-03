@@ -47,7 +47,7 @@ function YourAccount({DeleteAccount}) {
         <Button
           type='button' 
           onChange={e => setPassword(e.target.value)}
-          onClick={HandleSuccess}> Change Password</Button>
+          onClick={HandleSuccess}> Change Your Password</Button>
         </div>
 
         <div className="w-full">    
@@ -59,7 +59,7 @@ function YourAccount({DeleteAccount}) {
         <div className="w-full mt-6"> 
           <Link to='/lost-stolen-card'>
             <Button>
-              Report Lost/Stolen Card
+              Report a Lost/Stolen Card
             </Button>
           </Link>
         </div>
