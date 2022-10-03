@@ -78,6 +78,19 @@ app.post('/api/cards', async (req, res) => {
   }
 });
 
+//allcards route
+app.post('/api/allcards', async (req, res) => {
+  try {
+    const query = "SELECT * FROM cards";
+    const cards = await db.query(query);
+    res.json({ allcards: cards.rows});
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // Stations route.
 app.get('/api/stations', async (req, res) => {
   try {

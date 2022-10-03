@@ -91,6 +91,18 @@ function App() {
     return data.cards;
   }
 
+  async function AllCards() {
+    const response = await fetch('http://localhost:8000/api/allcards', {
+      method: 'POST',
+      body: JSON.stringify(),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.allcards;
+  }
+
   async function Stations() {
     const response = await fetch('http://localhost:8000/api/stations');
     const data = await response.json();
@@ -139,7 +151,7 @@ function App() {
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
             <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
-            <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate/>}/>
+            <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards}/>}/>
           </Routes>
         </BrowserRouter>
       </AdminContext.Provider>
