@@ -35,7 +35,7 @@ steps:
   displayName: 'Run a multi-line script'
 
 - script: npm ci
-        displayName: 'Install NPM dependencies'
+  displayName: 'Install NPM dependencies'
 
 - script: npm run cy:verify
   displayName: 'Cypress verify'
