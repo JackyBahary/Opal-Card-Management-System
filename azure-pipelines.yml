@@ -18,7 +18,7 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-jobs:
+- jobs:
 
   # Example job that runs end-to-end tests using Cypress test runner
   #   https://www.cypress.io/
