@@ -27,25 +27,15 @@ function LostStolenCard({ ReportLostStolenCard }) {
       )}
           <div className=" justify-self-center w-full grid-cols-2 pb-8">
             <label className="text-white text-2xl p-8 w-100">Full Name</label>
-            <input className="rounded-l text-2xl w-max" 
-            required
-            value={fullName} 
-          onChange={e => setFullName(e.target.value)}> </input>
+            <input className="rounded-l text-2xl w-max" value={fullName} onChange={e => setFullName(e.target.value)}/>
           </div>
           <div className=" justify-self-center w-full grid-cols-2 pb-8">
             <label className="text-white text-2xl p-8 w-100">Email</label>
-            <input className="rounded-l text-2xl w-max" 
-            required
-            value={opalEmail} 
-          onChange={e => setOpalEmail(e.target.value)}> </input>
+            <input className="rounded-l text-2xl w-max" value={opalEmail} onChange={e => setOpalEmail(e.target.value)}/>
           </div>
           <div className=" justify-self-center w-full grid-cols-2 pb-8">
             <label className="text-white text-2xl p-8 w-100">Opal Card Number</label>
-            <input className="rounded-l text-2xl w-max" 
-            required
-            maxLength={20}
-            value={opalCardNumber} 
-          onChange={e => setOpalCardNumber(e.target.value)}> </input>
+            <input className="rounded-l text-2xl w-max" maxLength={20} value={opalCardNumber} onChange={e => setOpalCardNumber(e.target.value)}/>
           </div>
           <div className="w-full">
             <Button type='button' onClick={HandleLostStolenCard}>Submit</Button>
