@@ -35,31 +35,31 @@ steps:
       restoreKeys: cypress | $(Agent.OS) | package-lock.json
     displayName: Cache Cypress binary
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - script: |
+      echo Add other tasks to build, test, and deploy your project.
+      echo See https://aka.ms/yaml
+    displayName: 'Run a multi-line script'
 
-- script: npm ci
-  displayName: 'Install NPM dependencies'
+  - script: npm ci
+    displayName: 'Install NPM dependencies'
 
-- script: npm run cy:verify
-        displayName: 'Cypress verify'
+  - script: npm run cy:verify
+          displayName: 'Cypress verify'
 
-- script: npm run cy:info
-  displayName: 'Cypress info'
+  - script: npm run cy:info
+    displayName: 'Cypress info'
 
-- script: |
-    npx print-env AGENT
-    npx print-env BUILD
-    npx print-env SYSTEM
-    npm run start &
-    npx cypress run --record --parallel --ci-build-id $BUILD_BUILDNUMBER --group "Azure CI"
-  displayName: 'Run Cypress tests'
-  env:
-    # avoid warnings about terminal
-    TERM: xterm
-    # map the secret Cypress record key as environment variable for this step
-    CYPRESS_RECORD_KEY: $(CYPRESS_RECORD_KEY)
+  - script: |
+      npx print-env AGENT
+      npx print-env BUILD
+      npx print-env SYSTEM
+      npm run start &
+      npx cypress run --record --parallel --ci-build-id $BUILD_BUILDNUMBER --group "Azure CI"
+    displayName: 'Run Cypress tests'
+    env:
+      # avoid warnings about terminal
+      TERM: xterm
+      # map the secret Cypress record key as environment variable for this step
+      CYPRESS_RECORD_KEY: $(CYPRESS_RECORD_KEY)
 
 
