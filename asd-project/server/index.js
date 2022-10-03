@@ -4,11 +4,11 @@ const { Client } = require ('pg');
 
 // Create a database client object with the credentials.
 const db = new Client({
-  user: "uqjuvgsfwzolla",
-  password: "d0af2ee08b80c516f1a9499f8b485aacf7d15b31dfbc2fe91bc4b50696f5dcfd",
-  host: "ec2-99-81-16-126.eu-west-1.compute.amazonaws.com",
+  user: "dunquhfohtsoge",
+  password: "4a810e8f623bb4bc78942bed9d250144f3c46a5fa931d58422babe620cd62dc7",
+  host: "ec2-99-81-68-240.eu-west-1.compute.amazonaws.com",
   port: 5432,
-  database: "ddds5c3o6shtq6",
+  database: "d1mbmm9l6o2l02",
   ssl: { rejectUnauthorized: false }
 });
 
@@ -64,6 +64,33 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+//Get Accounts.
+app.get('/api/accounts', async (req, res) => {
+  try {
+    const query = "SELECT * FROM accounts";
+    const accounts = await db.query(query);
+    res.json({ accounts: accounts.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+//Delete account route.
+app.post('/api/delete-accounts', async (req, res) => {
+  const {user} = req.body;
+  try {
+    const query = "DELETE FROM accounts where email = $1";
+    const accounts = await db.query(query, [user]);
+    res.json({ accounts: accounts.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // Cards route.
 app.post('/api/cards', async (req, res) => {
   const { user } = req.body;
@@ -71,6 +98,19 @@ app.post('/api/cards', async (req, res) => {
     const query = "SELECT * FROM cards WHERE email = $1";
     const cards = await db.query(query, [user]);
     res.json({ cards: cards.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+//allcards route
+app.post('/api/allcards', async (req, res) => {
+  try {
+    const query = "SELECT * FROM cards";
+    const cards = await db.query(query);
+    res.json({ allcards: cards.rows});
   }
   catch (err) {
     console.error(err);

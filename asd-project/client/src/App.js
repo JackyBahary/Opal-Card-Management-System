@@ -9,6 +9,8 @@ import TripHistory from "./pages/TripHistory";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
+import AdminLostStolen from "./pages/Admin-lost-stolen";
+import AdminDeactivate from "./pages/Admin-deactivate";
 
 const AuthContext = createContext();
 const AdminContext = createContext();
@@ -27,6 +29,8 @@ const ProtectedRecordTrip = ProtectRoute(RecordTrip);
 const ProtectedYourAccount = ProtectRoute(YourAccount);
 const ProtectedLostStolenCard = ProtectRoute(LostStolenCard);
 const ProtectedTripHistory = ProtectRoute(TripHistory);
+const ProtectedAdminLostStolen = ProtectRoute(AdminLostStolen);
+const ProtectedAdminDeactivate = ProtectRoute(AdminDeactivate);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -75,6 +79,18 @@ function App() {
     return data.success;
   }
 
+  async function DeleteAccount(user) {
+    const response = await fetch('http://localhost:8000/api/delete-accounts', {
+      method: 'POST',
+      body: JSON.stringify({ user }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   async function Cards(user) {
     const response = await fetch('http://localhost:8000/api/cards', {
       method: 'POST',
@@ -85,6 +101,18 @@ function App() {
     });
     const data = await response.json();
     return data.cards;
+  }
+
+  async function AllCards() {
+    const response = await fetch('http://localhost:8000/api/allcards', {
+      method: 'POST',
+      body: JSON.stringify(),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.allcards;
   }
 
   async function Stations() {
@@ -143,10 +171,11 @@ function App() {
             <Route path = '/record-trip' element = {
               <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
-            <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
+            <Route path = '/your-account' element = {<ProtectedYourAccount DeleteAccount={DeleteAccount}/>} />
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
-            <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>
-            } />
+            <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
+            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
+            <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards}/>}/>
           </Routes>
         </BrowserRouter>
       </AdminContext.Provider>
