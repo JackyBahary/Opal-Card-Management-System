@@ -14,7 +14,7 @@ steps:
   displayName: 'Run a one-line script'
 - script: npm i
   displayName: Installing Modules
-- script: npx cypress run
+- script: npx cypress run --spec "cypress/e2e/RecordTrip.cy.js"
   displayName: 'Testing View History Page'
 
 - script: |
