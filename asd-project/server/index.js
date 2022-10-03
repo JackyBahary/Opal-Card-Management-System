@@ -191,16 +191,16 @@ app.post('/api/trip-history', async (req, res) => {
 });
 
 // Lost-Stolen-Card route.
-app.get('/api/loststolencard', async (req, res) => {
+app.post('/api/loststolencard', async (req, res) => {
   const { card } = req.body;
   try {
-    const query = "INSERT INTO lost (cardnumber) values ($1)";
-    await db.query(query, [card]);
-    res.json({ lost: true});
+    const query = "SELECT cardnumber FROM cards WHERE cardnumber = $1";
+    const success = await db.query(query, [card]);
+    res.json({ successs: success.rows });
   }
   catch (err) {
     console.error(err);
-    res.json({ success: false });
+    res.end();
   }
 });
 
