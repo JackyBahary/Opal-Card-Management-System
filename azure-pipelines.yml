@@ -9,51 +9,12 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-strategy:
-  parallel: 4
-
 steps:
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
-
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '12.x'
-      displayName: 'Install Node.js'
-
-  - task: CacheBeta@1
-    inputs:
-      key: npm | $(Agent.OS) | package-lock.json
-      path: /home/vsts/.npm
-      restoreKeys: npm | $(Agent.OS) | package-lock.json
-    displayName: Cache NPM packages
-
-  - task: CacheBeta@1
-    inputs:
-      key: cypress | $(Agent.OS) | package-lock.json
-      path: /home/vsts/.cache/Cypress
-      restoreKeys: cypress | $(Agent.OS) | package-lock.json
-    displayName: Cache Cypress binary
 
   - script: |
       echo Add other tasks to build, test, and deploy your project.
       echo See https://aka.ms/yaml
     displayName: 'Run a multi-line script'
-
-  - script: npm ci
-    displayName: 'Install NPM dependencies'
-
-  - script: |
-      npx print-env AGENT
-      npx print-env BUILD
-      npx print-env SYSTEM
-      npm run start &
-      npx cypress run --record --parallel --ci-build-id $BUILD_BUILDNUMBER --group "Azure CI"
-    displayName: 'Run Cypress tests'
-    env:
-      # avoid warnings about terminal
-      TERM: xterm
-      # map the secret Cypress record key as environment variable for this step
-      CYPRESS_RECORD_KEY: $(CYPRESS_RECORD_KEY)
-
 
