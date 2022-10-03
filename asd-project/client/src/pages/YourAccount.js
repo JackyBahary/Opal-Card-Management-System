@@ -1,10 +1,12 @@
 import { useAuth } from "../App"
 import { useState, useContext, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
 import LostStolenCard from "./LostStolenCard";
 import {Link} from 'react-router-dom';
 
-function YourAccount() {
+function YourAccount({DeleteAccount}) {
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [errorMessage, setSuccessMessage] = useState("");
   const user = useAuth();
@@ -12,6 +14,14 @@ function YourAccount() {
   async function HandleSuccess() {
       setSuccessMessage("Your password has been updated!");
     }
+
+  async function HandleDeleteAccount() {
+    navigate('/home');
+    const success = await DeleteAccount(user);
+    if (!success) {
+      errorMessage("Error. Unable to delete account.");
+    }
+  }
 
     return (
       
@@ -38,6 +48,12 @@ function YourAccount() {
           type='button' 
           onChange={e => setPassword(e.target.value)}
           onClick={HandleSuccess}> Change Password</Button>
+        </div>
+
+        <div className="w-full">    
+        <Button
+          type='button'
+          onClick={HandleDeleteAccount}> Delete Account</Button>
         </div>
 
         <div className="w-full mt-6"> 

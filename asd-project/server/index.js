@@ -64,6 +64,33 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+//Get Accounts.
+app.get('/api/accounts', async (req, res) => {
+  try {
+    const query = "SELECT * FROM accounts";
+    const accounts = await db.query(query);
+    res.json({ accounts: accounts.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+//Delete account route.
+app.post('/api/delete-accounts', async (req, res) => {
+  const {user} = req.body;
+  try {
+    const query = "DELETE FROM accounts where email = $1";
+    const accounts = await db.query(query, [user]);
+    res.json({ accounts: accounts.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // Cards route.
 app.post('/api/cards', async (req, res) => {
   const { user } = req.body;
