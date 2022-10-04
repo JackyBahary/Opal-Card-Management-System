@@ -21,9 +21,6 @@ function NavBar() {
             <Link to = '/record-trip'>
               <Button>Record Trip</Button>
             </Link>
-            <Link to = '/topup'>
-              <Button>Top Up Card </Button>
-            </Link>
             <Link to='/add-card'>
               <Button>Add Card</Button>
             </Link>
@@ -36,6 +33,9 @@ function NavBar() {
           <span className="justify-end space-x-2">
             <Link to = '/trip-history'>
               <Button>Trip History</Button>
+            </Link>
+            <Link to = '/topup'>
+              <Button>Top Up Card </Button>
             </Link>
           </span>
         </div>
