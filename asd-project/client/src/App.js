@@ -182,6 +182,18 @@ function App() {
     return data.success;
   }
 
+  async function Deactivate(user, password) {
+    const response = await fetch('http://localhost:8000/api/update-password', {
+      method: 'POST',
+      body: JSON.stringify({user, password}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <AdminContext.Provider value={admin}>
