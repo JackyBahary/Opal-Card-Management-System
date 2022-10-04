@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="5.057" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2022-10-04T14:43:16" tests="0" file="cypress/integration/RecordTripTest.js" time="0.000" failures="0">
-  </testsuite>
-  <testsuite name="Visiting Record Trips Page" timestamp="2022-10-04T14:43:16" tests="1" time="5.042" failures="0">
-    <testcase name="Visiting Record Trips Page visits" time="3.409" classname="visits">
-    </testcase>
-  </testsuite>
-</testsuites>
