@@ -13,17 +13,20 @@ function SaveTrip({ Cards, Stations, SaveTrip}) {
   const [toStation, setToStation] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Runs the function "HandleCards()" and "HandleStations()".
   useEffect(() => {
     HandleCards()
     HandleStations()
   }, [])
-
+  
+  // Pulls cardnumber data from the database.
   async function HandleCards() {
     const cards = await Cards(user);
     setCards(cards);
     setCard(cards[0].cardnumber);
   }
 
+  // Pulls fromstation and tostation data from the database.
   async function HandleStations() {
     const stations = await Stations();
     setStations(stations);
@@ -31,6 +34,9 @@ function SaveTrip({ Cards, Stations, SaveTrip}) {
     setToStation(stations[0].stationname);
   }
 
+  // Push saved trip data to database according to the card, fromstation, tostation inputs from the user. 
+  // A pop up message will appear if the data has been successfully saved or error.
+  // If the data has been saved successfully, the user will be redirected to "SavedTrip" page.
   async function HandleSave() {
     const success = await SaveTrip(card, fromStation, toStation);
     if (!success) {
@@ -44,6 +50,10 @@ function SaveTrip({ Cards, Stations, SaveTrip}) {
     }
   }
 
+  // Line 65-79: A drag-down selector which allows the user to select their card number based on the data from the database.
+  // Line 90-94: A drag-down selector which allows the user to select their FROM station input based on the data from the database.
+  // Line 95-109: A drag-down selector which allows the user to select their TO station input based on the data from the database.
+  // Line 111-115: A button that will run the function (HandleSave) after the user selected their inputs.
   return (
     <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
         {errorMessage && (

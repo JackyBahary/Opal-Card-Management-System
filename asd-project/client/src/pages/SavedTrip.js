@@ -10,17 +10,20 @@ function SavedTrip({Cards, SavedTrip}) {
   const [saved, setSaved] = useState([]);
   const [card, setCard] = useState();
   const [clicked, setClicked] = useState();
-
+  
+  // Runs the function "HandleCards()".
   useEffect(() => {
     HandleCards()
   }, [])
 
+  // Pulls cardnumber data from the database.
   async function HandleCards() {
     const cards = await Cards(user);
     setCards(cards);
     setCard(cards[0].cardnumber);
   }
 
+  // Pulls saved trip data from SaveTrip when the button is clicked according to the given card number input.
   async function HandleSaved() {
     console.log(saved);
     const savedTrip = await SavedTrip(card);
@@ -29,6 +32,11 @@ function SavedTrip({Cards, SavedTrip}) {
     setClicked(true);
   }
 
+  // Line 45-59: A drag-down selector which allows the user to select their card number based on the data from the database.
+  // Line 60-61: A button that allows user to click if they have selected their card number.
+  // Line 65-88: Pulls the saved trip from SaveTrip database that the user has inputted. Their card number, from station and to station will be shown as an indicator.
+  // Line 90-94: Automatically pops out a message telling the user if they have not made any saved trip from their card number input.
+  // Line 95-100: A button that redirects user to save a new trip.
   return (
     <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
         <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
