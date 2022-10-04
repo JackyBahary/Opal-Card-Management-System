@@ -140,7 +140,12 @@ function App() {
     return data.success;
   }
 
-
+  async function Stations() {
+    const response = await fetch('http://localhost:8000/api/stations');
+    const data = await response.json();
+    return data.stations;
+  }
+  
   async function GetPrice(fromStation, toStation) {
     const response = await fetch('http://localhost:8000/api/get-price', {
       method: 'POST',
