@@ -36,7 +36,7 @@ function AdminDeactivate({AllCards, Deactivate}) {
         {errorMessage && (
         <div className="rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 b-2 text-white font-bold">{errorMessage}</div>
         )}
-        <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6 py-2">
+        <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6 py-2">  
           <label className="text-white text-2xl p-8 w-100">Cards</label>
           <select className="rounded-l text-2xl w-max" 
           value={card} 
