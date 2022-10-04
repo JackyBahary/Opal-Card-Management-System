@@ -6,7 +6,7 @@
 trigger:
   branches:
       include:
-         - Jacky-Feature
+         - main
 
 variables:
   - name: projectPath
