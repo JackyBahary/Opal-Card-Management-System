@@ -17,49 +17,95 @@ variables:
 pool:
   vmImage: ubuntu-latest
 
-# stages:
-#   - compile
-#   - test
-#   - package
+# steps:
+# - task: NodeTool@0
+#   inputs:
+#     versionSpec: '10.x'
+#   displayName: 'Install Node.js'
 
-steps:
-- task: NodeTool@0
+# - script: |
+#     npm install
+#   workingDirectory: ${{variables.projectPath}}
+#   displayName: 'npm install client'
+
+# - script: |
+#     npm install
+#   workingDirectory: ${{variables.serverPath}}
+#   displayName: 'npm install server'
+
+# # - script: |
+# #     npm run dev
+# #   workingDirectory:  ${{variables.serverPath}}
+# #   displayName: 'npm run dev server'
+
+# # - script: |
+# #     npm start
+# #   workingDirectory:  ${{variables.projectPath}}
+# #   displayName: 'npm start client'
+
+# # - script: |
+# #     ./node_modules/.bin/cypress run --browser chrome
+# #   workingDirectory: ${{variables.projectPath}}
+# #   displayName: 'Run cypress tests'
+
+# - script: |
+#     npm run cy:ci
+#   workingDirectory: ${{variables.projectPath}}
+#   displayName: 'Run cypress tests'
+
+# - task: PublishTestResults@2
+#   displayName: 'Publish test results'
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: '*.xml'
+#     searchFolder: 
+#       '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+#     mergeTestResults: true
+#     testRunTitle: 'Cypress tests'
+
+stages:
+  - compile
+  - package
+  - test
+
+pack-gz:
+  stage: compile
+  task: NodeTool@0
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
+pack-iso:
+  stage: compile
+  script: |
     npm install
   workingDirectory: ${{variables.projectPath}}
   displayName: 'npm install client'
 
-- script: |
+pack-abc:
+  stage: compile
+  script: |
     npm install
   workingDirectory: ${{variables.serverPath}}
   displayName: 'npm install server'
 
-# - script: |
-#     npm run dev
-#   workingDirectory:  ${{variables.serverPath}}
-#   displayName: 'npm run dev server'
+pack-bca:
+  stage: package
+  script: |
+    npm run dev
+  workingDirectory:  ${{variables.serverPath}}
+  displayName: 'npm run dev server'
 
-# - script: |
-#     npm start
-#   workingDirectory:  ${{variables.projectPath}}
-#   displayName: 'npm start client'
-
-# - script: |
-#     ./node_modules/.bin/cypress run --browser chrome
-#   workingDirectory: ${{variables.projectPath}}
-#   displayName: 'Run cypress tests'
-
-- script: |
-    npm --prefix ../server run dev
+pack-dca:
+  stage: package
+  script: |
     npm run cy:ci
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
 
-- task: PublishTestResults@2
+pack-ccc:
+  stage: test
+  task: PublishTestResults@2
   displayName: 'Publish test results'
   inputs:
     testResultsFormat: 'JUnit'
