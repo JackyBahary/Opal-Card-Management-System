@@ -2,6 +2,7 @@ import { useAuth } from "../App"
 import { useState, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
+import TopUpPage from "./TopUp";
 import LostStolenCard from "./LostStolenCard";
 import {Link} from 'react-router-dom';
 
@@ -20,6 +21,10 @@ function YourAccount({UpdatePassword, DeleteAccount}) {
       setSuccessMessage("Failed to Update Password.");
     }
   }
+
+    async function HandleTopUpSuccess() {
+      setSuccessMessage("Your card balance has been added!");
+    }
 
   async function HandleDeleteAccount() {
     navigate('/home');
