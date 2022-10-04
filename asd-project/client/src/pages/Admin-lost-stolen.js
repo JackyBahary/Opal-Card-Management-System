@@ -1,5 +1,9 @@
+import { useState, useEffect } from "react";
+import Button from "../components/Button"
+import { useAuth } from "../App"
 
 function AdminLostStolen() {
+
     return (
       <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
         <p className="text-4xl text-white font-bold mb-5 text-center pb-8">

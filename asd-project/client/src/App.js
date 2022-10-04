@@ -121,6 +121,33 @@ function App() {
     return data.success;
   }
 
+<<<<<<< Updated upstream
+=======
+  async function Deactivate(cardnumber) {
+    const response = await fetch('http://localhost:8000/api/allcards', {
+      method: 'POST',
+      body: JSON.stringify({cardnumber}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
+  async function GetPrice(fromStation, toStation) {
+    const response = await fetch('http://localhost:8000/api/get-price', {
+      method: 'POST',
+      body: JSON.stringify({fromStation, toStation}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.price;
+  }
+
+>>>>>>> Stashed changes
   async function TripHistory(card) {
     const response = await fetch('http://localhost:8000/api/trip-history', {
       method: 'POST',
