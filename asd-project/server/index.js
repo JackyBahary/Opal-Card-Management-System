@@ -245,6 +245,19 @@ app.post('/api/update-password', async (req, res) => {
   }
 });
 
+// Deactivate route.
+app.post('/api/deactivate', async (req, res) => {
+  const {cardnumber} = req.body;
+  try {
+    const balancequery = "UPDATE cards SET deactivated = 1 WHERE cardnumber = $1";
+    await db.query(balancequery, [cardnumber])
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
 // Opal Card Fares July 2022.
 const rates = [
   { minDistance: 0, rate: 3.79 },
