@@ -14,6 +14,8 @@ trigger:
 variables:
   - name: projectPath
     value: './asd-project/client/'
+  - name: serverPath
+    value: './asd-project/server/'
 
 pool:
   vmImage: ubuntu-latest
@@ -27,7 +29,12 @@ steps:
 - script: |
     npm install
   workingDirectory: ${{variables.projectPath}}
-  displayName: 'npm install and build'
+  displayName: 'npm install client'
+
+- script: |
+    npm install
+  workingDirectory: ${{variables.serverPath}}
+  displayName: 'npm install server'
 
 - script: |
     ./node_modules/.bin/cypress run --browser chrome
