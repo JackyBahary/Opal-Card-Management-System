@@ -34,12 +34,12 @@ steps:
      displayName: 'Run cypress tests'
 
 - task: PublishTestResults@2
-    displayName: 'Publish test results'
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '*.xml'
-      searchFolder: 
-        '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
-      mergeTestResults: true
-      testRunTitle: 'Cypress tests'
+  displayName: 'Publish test results'
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '*.xml'
+    searchFolder: 
+      '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+    mergeTestResults: true
+    testRunTitle: 'Cypress tests'
 
