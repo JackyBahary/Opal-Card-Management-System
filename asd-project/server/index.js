@@ -64,6 +64,20 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// Add Card route.
+app.post('/api/addCard', async (req, res) => {
+  const { cardNum, cardName, user} = req.body;
+  try {
+    const query = "INSERT into cards (cardnumber, cardname, email) VALUES ($1, $2, $3)";
+    await db.query(query, [cardNum, cardName, user]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
 //Get Accounts.
 app.get('/api/accounts', async (req, res) => {
   try {
