@@ -1,5 +1,6 @@
 import NavBar from "./components/NavBar";
 import LinkCard from "./pages/LinkCard";
+import TopUp from "./pages/TopUp";
 import Home from "./pages/Home";
 import LoginRegister from "./pages/LoginRegister";
 import RecordTrip from "./pages/RecordTrip";
@@ -28,6 +29,7 @@ const ProtectedLinkCard = ProtectRoute(LinkCard);
 const ProtectedHome = ProtectRoute(Home);
 const ProtectedRecordTrip = ProtectRoute(RecordTrip);
 const ProtectedYourAccount = ProtectRoute(YourAccount);
+const ProtectedTopUp = ProtectRoute(TopUp);
 const ProtectedLostStolenCard = ProtectRoute(LostStolenCard);
 const ProtectedTripHistory = ProtectRoute(TripHistory);
 const ProtectedAdminLostStolen = ProtectRoute(AdminLostStolen);
@@ -185,6 +187,7 @@ function App() {
               <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
             <Route path = '/your-account' element = {<ProtectedYourAccount DeleteAccount={DeleteAccount}/>} />
+            <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards}/>} />
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
             <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
