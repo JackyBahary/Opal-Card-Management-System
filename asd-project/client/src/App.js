@@ -121,10 +121,9 @@ function App() {
     return data.success;
   }
 
-<<<<<<< Updated upstream
-=======
   async function Deactivate(cardnumber) {
-    const response = await fetch('http://localhost:8000/api/allcards', {
+    console.log("called" + cardnumber)
+    const response = await fetch('http://localhost:8000/api/deactivate', {
       method: 'POST',
       body: JSON.stringify({cardnumber}),
       headers: {
@@ -147,7 +146,6 @@ function App() {
     return data.price;
   }
 
->>>>>>> Stashed changes
   async function TripHistory(card) {
     const response = await fetch('http://localhost:8000/api/trip-history', {
       method: 'POST',
@@ -178,7 +176,7 @@ function App() {
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
             <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
-            <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards}/>}/>
+            <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>}/>
           </Routes>
         </BrowserRouter>
       </AdminContext.Provider>

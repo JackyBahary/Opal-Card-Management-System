@@ -118,10 +118,8 @@ app.post('/api/record-trip', async (req, res) => {
   }
 });
 
-<<<<<<< Updated upstream
-=======
 // Deactivate route.
-app.post('/api/all-cards', async (req, res) => {
+app.post('/api/deactivate', async (req, res) => {
   const {cardnumber} = req.body;
   try {
     const balancequery = "UPDATE cards SET deactivated = 1 WHERE cardnumber = $1";
@@ -158,7 +156,6 @@ app.post('/api/get-price', async (req, res) => {
   }
 });
 
->>>>>>> Stashed changes
 // TripHistory route.
 app.post('/api/trip-history', async (req, res) => {
   const { card } = req.body;
