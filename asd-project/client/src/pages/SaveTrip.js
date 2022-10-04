@@ -39,7 +39,8 @@ function SaveTrip({ Cards, Stations, SaveTrip}) {
     }
     else {
       console.log("success",success)
-      navigate('/home');
+      alert("Trip has been saved.");
+      navigate('/saved-trip');
     }
   }
 

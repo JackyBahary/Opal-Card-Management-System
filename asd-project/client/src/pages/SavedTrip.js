@@ -81,13 +81,13 @@ function SavedTrip({Cards, SavedTrip}) {
         )}
         {
           clicked && saved.length == 0 && (
-            <p className="text-white text-center text-2xl p-8 w-100"> You have not made any saved trip in this card {card}</p>
+            <p className="text-white text-center text-2xl p-8 w-100"> You have not saved any trip in this card {card}</p>
           )
         }
         <div className="w-full mt-6">
         <Link to='/save-trip'>
           <Button>
-            Create a new save
+            Save Trip
           </Button>
         </Link>
         
