@@ -106,6 +106,18 @@ function App() {
     return data.success;
   }
 
+  async function DeleteUserCards(user) {
+    const response = await fetch('http://localhost:8000/api/delete-user-cards', {
+      method: 'POST',
+      body: JSON.stringify({ user }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   async function Cards(user) {
     const response = await fetch('http://localhost:8000/api/cards', {
       method: 'POST',
@@ -222,7 +234,7 @@ function App() {
             <Route path = '/record-trip' element = {
               <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
-            <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount}/>} />
+            <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>} />
             <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards}/>} />
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>

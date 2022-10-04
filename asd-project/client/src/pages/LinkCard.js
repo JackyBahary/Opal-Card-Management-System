@@ -9,12 +9,12 @@ function LinkCard({addCard}) {
 
   // Handles the Add Card button click.
   async function HandleAddCard() {
+    setErrorMessage("Successfully added card to your account.");
     const success = await addCard(parseInt(cardNum), cardName, user);
     if (!success) {
       setErrorMessage("Error. Unable to add card to your account.");
     }
   }
-
   return (
     <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
       <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
@@ -34,6 +34,9 @@ function LinkCard({addCard}) {
             onChange={e => setCardName(e.target.value)}
           />
         </div>
+        {errorMessage && (
+        <div className="rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 b-2 text-white font-bold">{errorMessage}</div>
+        )}
         <div className="w-full">    
         <Button
           type='button'
