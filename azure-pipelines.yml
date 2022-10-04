@@ -68,43 +68,38 @@ stages:
   - package
   - test
 
-pack-gz:
-  stage: compile
+
+stage: compile
   task: NodeTool@0
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-pack-iso:
-  stage: compile
+stage: compile
   script: |
     npm install
   workingDirectory: ${{variables.projectPath}}
   displayName: 'npm install client'
 
-pack-abc:
-  stage: compile
+stage: compile
   script: |
     npm install
   workingDirectory: ${{variables.serverPath}}
   displayName: 'npm install server'
 
-pack-bca:
-  stage: package
+stage: package
   script: |
     npm run dev
   workingDirectory:  ${{variables.serverPath}}
   displayName: 'npm run dev server'
 
-pack-dca:
-  stage: package
+stage: package
   script: |
     npm run cy:ci
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
 
-pack-ccc:
-  stage: test
+stage: test
   task: PublishTestResults@2
   displayName: 'Publish test results'
   inputs:
