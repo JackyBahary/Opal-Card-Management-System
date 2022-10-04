@@ -44,6 +44,13 @@ steps:
 #   displayName: 'npm start client'
 
 - script: |
+    npm config set proxy null
+    npm config set https-proxy null
+    npm config set registry http://registry.npmjs.org/
+  workingDirectory: ${{variables.projectPath}}
+  displayName: 'Run cypress tests'
+
+- script: |
     ./node_modules/.bin/cypress run --browser chrome
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
