@@ -64,12 +64,39 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// Add Card route.
+app.post('/api/addCard', async (req, res) => {
+  const { cardNum, cardName, user} = req.body;
+  try {
+    const query = "INSERT INTO cards (cardnumber, cardname, balance, email) VALUES ($1, $2, '0', $3)";
+    await db.query(query, [cardNum, cardName, user]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
 //Get Accounts.
 app.get('/api/accounts', async (req, res) => {
   try {
     const query = "SELECT * FROM accounts";
     const accounts = await db.query(query);
     res.json({ accounts: accounts.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+//Get all cards... temporary 
+app.get('/api/getCards', async (req, res) => {
+  try {
+    const query = "SELECT * FROM cards";
+    const cards = await db.query(query);
+    res.json({ cards: cards.rows });
   }
   catch (err) {
     console.error(err);
