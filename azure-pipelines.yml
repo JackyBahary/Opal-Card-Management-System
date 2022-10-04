@@ -6,7 +6,7 @@
 trigger:
   branches:
       include:
-         - Jacky-Feature
+         - main
 
 variables:
   - name: projectPath
@@ -48,10 +48,10 @@ steps:
 #   workingDirectory: ${{variables.projectPath}}
 #   displayName: 'Run cypress tests'
 
-- script: |
-    npm run cy:ci
-  workingDirectory: ${{variables.projectPath}}
-  displayName: 'Run cypress tests'
+# - script: |
+#     npm run cy:ci
+#   workingDirectory: ${{variables.projectPath}}
+#   displayName: 'Run cypress tests'
 
 - task: PublishTestResults@2
   displayName: 'Publish test results'
