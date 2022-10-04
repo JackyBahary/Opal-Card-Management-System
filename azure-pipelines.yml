@@ -7,9 +7,6 @@ trigger:
   branches:
       include:
          - Jacky-Feature
-  paths:
-      include:
-         - asd-project/client/*
 
 variables:
   - name: projectPath
