@@ -1,20 +1,46 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+  branches:
+      include:
+         - Jacky-Feature
+  paths:
+      include:
+         - asd-project/client/*
+
+variables:
+  - name: projectPath
+    value: './asd-project/client/'
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-  - script: echo Hello, world!
-    displayName: 'Run a one-line script'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
 
-  - script: |
-      echo Add other tasks to build, test, and deploy your project.
-      echo See https://aka.ms/yaml
-    displayName: 'Run a multi-line script'
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- script: |
+    ./node_modules/.bin/cypress run --browser chrome
+     workingDirectory: ${{variables.projectPath}}
+     displayName: 'Run cypress tests'
+
+    - task: PublishTestResults@2
+        displayName: 'Publish test results'
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '*.xml'
+          searchFolder: 
+            '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+          mergeTestResults: true
+          testRunTitle: 'Cypress tests'
 
