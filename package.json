@@ -20,14 +20,5 @@
     "npx": "^10.2.2",
     "reach": "^1.0.1",
     "react": "^18.2.0"
-  },
-  "devDependencies": {
-    "jest-junit": "^14.0.1"
-  },
-  "jest-junit": {
-    "suiteNameTemplate": "{filepath}",
-    "outputDirectory": ".",
-    "outputName": "junit.xml"
-},
-  "test:ci": "npm run test -- --watchAll=false --reporters=default --reporters=jest-junit"
+  }
 }

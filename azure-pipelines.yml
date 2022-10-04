@@ -1,19 +1,112 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+  branches:
+      include:
+         - Jacky-Feature
+
+variables:
+  - name: projectPath
+    value: './asd-project/client/'
+  - name: serverPath
+    value: './asd-project/server/'
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    npm install
+  workingDirectory: ${{variables.projectPath}}
+  displayName: 'npm install client'
+
+- script: |
+    npm install
+  workingDirectory: ${{variables.serverPath}}
+  displayName: 'npm install server'
+
+# # - script: |
+# #     npm run dev
+# #   workingDirectory:  ${{variables.serverPath}}
+# #   displayName: 'npm run dev server'
+
+# # - script: |
+# #     npm start
+# #   workingDirectory:  ${{variables.projectPath}}
+# #   displayName: 'npm start client'
+
+# - script: |
+#     ./node_modules/.bin/cypress run --browser chrome
+#   workingDirectory: ${{variables.projectPath}}
+#   displayName: 'Run cypress tests'
+
+- script: |
+    npm run cy:ci
+  workingDirectory: ${{variables.projectPath}}
+  displayName: 'Run cypress tests'
+
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '*.xml'
+    searchFolder: 
+      '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+    mergeTestResults: true
+    testRunTitle: 'Cypress tests'
+
+# stages:
+#   - compile
+#   - package
+#   - test
+
+
+# stage: compile
+#   task: NodeTool@0
+#   inputs:
+#     versionSpec: '10.x'
+#   displayName: 'Install Node.js'
+
+# stage: compile
+#   script: |
+#     npm install
+#   workingDirectory: ${{variables.projectPath}}
+#   displayName: 'npm install client'
+
+# stage: compile
+#   script: |
+#     npm install
+#   workingDirectory: ${{variables.serverPath}}
+#   displayName: 'npm install server'
+
+# stage: package
+#   script: |
+#     npm run dev
+#   workingDirectory:  ${{variables.serverPath}}
+#   displayName: 'npm run dev server'
+
+# stage: package
+#   script: |
+#     npm run cy:ci
+#   workingDirectory: ${{variables.projectPath}}
+#   displayName: 'Run cypress tests'
+
+# stage: test
+#   task: PublishTestResults@2
+#   displayName: 'Publish test results'
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: '*.xml'
+#     searchFolder: 
+#       '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+#     mergeTestResults: true
+#     testRunTitle: 'Cypress tests'
+

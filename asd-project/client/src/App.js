@@ -9,6 +9,7 @@ import TripHistory from "./pages/TripHistory";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
+//import SaveTrip from "./pages/SaveTrip";
 import AdminLostStolen from "./pages/Admin-lost-stolen";
 import AdminDeactivate from "./pages/Admin-deactivate";
 
@@ -79,6 +80,30 @@ function App() {
     return data.success;
   }
 
+  async function addCard(cardNum, cardName, user) {
+    const response = await fetch('http://localhost:8000/api/addCard', {
+      method: 'POST',
+      body: JSON.stringify({ cardNum, cardName, user }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
+  async function DeleteAccount(user) {
+    const response = await fetch('http://localhost:8000/api/delete-accounts', {
+      method: 'POST',
+      body: JSON.stringify({ user }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   async function Cards(user) {
     const response = await fetch('http://localhost:8000/api/cards', {
       method: 'POST',
@@ -103,16 +128,10 @@ function App() {
     return data.allcards;
   }
 
-  async function Stations() {
-    const response = await fetch('http://localhost:8000/api/stations');
-    const data = await response.json();
-    return data.stations;
-  }
-
-  async function RecordTrip(card, fromStation, toStation) {
-    const response = await fetch('http://localhost:8000/api/record-trip', {
+  async function LostStolenCard(card) {
+    const response = await fetch('http://localhost:8000/api/loststolencard', {
       method: 'POST',
-      body: JSON.stringify({card, fromStation, toStation }),
+      body: JSON.stringify({card}),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -146,6 +165,18 @@ function App() {
     return data.trips;
   }
 
+  async function UpdatePassword(user, password) {
+    const response = await fetch('http://localhost:8000/api/update-password', {
+      method: 'POST',
+      body: JSON.stringify({user, password}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <AdminContext.Provider value={admin}>
@@ -155,13 +186,13 @@ function App() {
             <Route path = '/' element = {
               <LoginRegister Login={Login} AdminLogin={AdminLogin} Register={Register} />
             } />
-            <Route path = '/add-card' element = {<ProtectedLinkCard/>} />
+            <Route path = '/add-card' element = {<ProtectedLinkCard addCard={addCard}/>} />
             <Route path = '/home' element = {<ProtectedHome/>} />
             <Route path = '/record-trip' element = {
-              <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip}/>
+              <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
-            <Route path = '/your-account' element = {<ProtectedYourAccount/>} />
-            <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard/>} />
+            <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount}/>} />
+            <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
             <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
             <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>}/>

@@ -4,11 +4,11 @@ const { Client } = require ('pg');
 
 // Create a database client object with the credentials.
 const db = new Client({
-  user: "uqjuvgsfwzolla",
-  password: "d0af2ee08b80c516f1a9499f8b485aacf7d15b31dfbc2fe91bc4b50696f5dcfd",
-  host: "ec2-99-81-16-126.eu-west-1.compute.amazonaws.com",
+  user: "dunquhfohtsoge",
+  password: "4a810e8f623bb4bc78942bed9d250144f3c46a5fa931d58422babe620cd62dc7",
+  host: "ec2-99-81-68-240.eu-west-1.compute.amazonaws.com",
   port: 5432,
-  database: "ddds5c3o6shtq6",
+  database: "d1mbmm9l6o2l02",
   ssl: { rejectUnauthorized: false }
 });
 
@@ -64,6 +64,60 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// Add Card route.
+app.post('/api/addCard', async (req, res) => {
+  const { cardNum, cardName, user} = req.body;
+  try {
+    const query = "INSERT INTO cards (cardnumber, cardname, balance, email) VALUES ($1, $2, '0', $3)";
+    await db.query(query, [cardNum, cardName, user]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+//Get Accounts.
+app.get('/api/accounts', async (req, res) => {
+  try {
+    const query = "SELECT * FROM accounts";
+    const accounts = await db.query(query);
+    res.json({ accounts: accounts.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+//Get all cards... temporary 
+app.get('/api/getCards', async (req, res) => {
+  try {
+    const query = "SELECT * FROM cards";
+    const cards = await db.query(query);
+    res.json({ cards: cards.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+//Delete account route.
+app.post('/api/delete-accounts', async (req, res) => {
+  const {user} = req.body;
+  try {
+    const query = "DELETE FROM accounts where email = $1";
+    const accounts = await db.query(query, [user]);
+    res.json({ accounts: accounts.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // Cards route.
 app.post('/api/cards', async (req, res) => {
   const { user } = req.body;
@@ -104,12 +158,18 @@ app.get('/api/stations', async (req, res) => {
   }
 });
 
+
 // RecordTrip route.
 app.post('/api/record-trip', async (req, res) => {
-  const { card, fromStation, toStation } = req.body;
+  const { card, fromStation, toStation, price } = req.body;
   try {
-    const query = "INSERT INTO cardtrips (cardnumber, fromstation, tostation, date_time) VALUES ($1, $2, $3, timeofday())";
-    await db.query(query, [card, fromStation, toStation]);
+    const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
+    const balances = await db.query(balancequery, [card]);
+    const newBalance = balances.rows[0].balance - price;
+    const query = "INSERT INTO cardtrips (cardnumber, fromstation, tostation, date_time, balance, price) VALUES ($1, $2, $3, timeofday(), $4, $5)";
+    await db.query(query, [card, fromStation, toStation, newBalance, price]);
+    const updatequery = "UPDATE cards SET balance = $1 WHERE cardnumber = $2";
+    await db.query(updatequery, [newBalance, card]);
     res.json({ success: true });
   }
   catch (err) {
@@ -147,7 +207,7 @@ app.post('/api/get-price', async (req, res) => {
 app.post('/api/trip-history', async (req, res) => {
   const { card } = req.body;
   try {
-    const query = "SELECT cardnumber, fromstation, tostation, date_time FROM cardtrips WHERE cardnumber = $1";
+    const query = "SELECT cardnumber, fromstation, tostation, date_time, balance, price FROM cardtrips WHERE cardnumber = $1";
     const trips = await db.query(query, [card]);
     res.json({ trips: trips.rows });
   }
@@ -157,5 +217,42 @@ app.post('/api/trip-history', async (req, res) => {
   }
 });
 
+// Lost-Stolen-Card route.
+app.post('/api/loststolencard', async (req, res) => {
+  const { card } = req.body;
+  try {
+    const query = "SELECT cardnumber FROM cards WHERE cardnumber = $1";
+    const success = await db.query(query, [card]);
+    res.json({ successs: success.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+// Update Password route.
+app.post('/api/update-password', async (req, res) => {
+  const { user, password } = req.body;
+  try {
+    const query = "UPDATE accounts SET password = $2 WHERE email = $1";
+    await db.query(query, [user, password]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+// Opal Card Fares July 2022.
+const rates = [
+  { minDistance: 0, rate: 3.79 },
+  { minDistance: 10, rate: 4.71 },
+  { minDistance: 20, rate: 5.42 },
+  { minDistance: 35, rate: 7.24 },
+  { minDistance: 65, rate: 9.31 }
+]
 
 app.listen(8000);
+

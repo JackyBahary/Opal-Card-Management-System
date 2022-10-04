@@ -6,6 +6,11 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "cypress-mochawesome-reporter": "^3.2.2",
+    "cypress-multi-reporters": "^1.6.1",
+    "junit-report-merger": "^4.0.0",
+    "mocha": "^10.0.0",
+    "mocha-junit-reporter": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
@@ -16,7 +21,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:dev": "npm --prefix ../server run dev",
+    "start:ci": "npm start",
+    "cy:run": "./node_modules/.bin/cypress run --browser chrome",
+    "cy:ci": "start-server-and-test start:dev http://localhost:8000 start:ci"
   },
   "eslintConfig": {
     "extends": [
@@ -38,7 +47,9 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",
+    "cypress": "^9.0.0",
     "postcss": "^8.4.16",
+    "start-server-and-test": "^1.14.0",
     "tailwindcss": "^3.1.8"
   }
 }
