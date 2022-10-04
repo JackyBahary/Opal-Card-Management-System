@@ -9,7 +9,7 @@ import TripHistory from "./pages/TripHistory";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
-import SaveTrip from "./pages/SaveTrip";
+//import SaveTrip from "./pages/SaveTrip";
 import AdminLostStolen from "./pages/Admin-lost-stolen";
 import AdminDeactivate from "./pages/Admin-deactivate";
 
