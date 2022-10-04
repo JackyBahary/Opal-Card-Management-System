@@ -17,6 +17,11 @@ variables:
 pool:
   vmImage: ubuntu-latest
 
+stages:
+  - compile
+  - test
+  - package
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -49,7 +54,7 @@ steps:
 #   displayName: 'Run cypress tests'
 
 - script: |
-    npm run dev
+    npm --prefix ../server run dev
     npm run cy:ci
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
