@@ -36,14 +36,10 @@ steps:
   workingDirectory: ${{variables.serverPath}}
   displayName: 'npm install server'
 
-- job: Server
-  pool:
-    vmImage: 'windows-latest'
-  steps:
-  - script: 
-      npm run dev
-    workingDirectory:  ${{variables.serverPath}}
-    displayName: 'npm run dev server'
+- script: |
+    npm run dev
+  workingDirectory:  ${{variables.serverPath}}
+  displayName: 'npm run dev server'
 
 - script: |
     npm start
