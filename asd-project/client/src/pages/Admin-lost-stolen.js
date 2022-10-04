@@ -2,14 +2,19 @@ import { useState, useEffect } from "react";
 import Button from "../components/Button"
 import { useAuth } from "../App"
 
+//importing necessary functions
+
 function AdminLostStolen({AllCards, LostStolen}) {
   const [cards, setCards] = useState([]);
   const [card, setCard] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
+  //triggers db card retrieval 
   useEffect(() => {
     HandleCards()
   }, [])
+
+//pulls all cards from the database and loads them to cards state
 
   async function HandleCards() {
     const cards = await AllCards();
@@ -17,12 +22,15 @@ function AdminLostStolen({AllCards, LostStolen}) {
     setCard(cards[0].cardnumber);
   }
 
+//Queries db to add lost/stolen flag to each card
+
   async function HandleLostStolen() {
     const success = await LostStolen(card);
     if (success) {
       setErrorMessage("Card " + card + " Marked Lost/Stolen");
     }
     else {
+      //shows error message if change is unsuccessful
       setErrorMessage("Error");
     }
   }
@@ -39,11 +47,13 @@ function AdminLostStolen({AllCards, LostStolen}) {
           <label className="text-white text-2xl p-8 w-100">Cards</label>
           <select className="rounded-l text-2xl w-max" 
           value={card} 
+          //sets the card object to the current value of the list
           onChange={e => setCard(parseInt(e.target.value))}
           >
             {
               cards.map((card) => {
                 return (
+                  //displays list of cards
                   <option key = {card.cardnumber} value={card.cardnumber}>{card.cardnumber}</option>
                 )
               })
@@ -52,6 +62,7 @@ function AdminLostStolen({AllCards, LostStolen}) {
         </div>
         <div className="w-full">
           <Button
+          //sends the current card number to the lost/stolen function, to be handled and sent off
           type='button' 
           onClick={HandleLostStolen}>Lost Stolen</Button>
         </div>
