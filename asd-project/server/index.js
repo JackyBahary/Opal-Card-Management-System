@@ -231,6 +231,20 @@ app.post('/api/loststolencard', async (req, res) => {
   }
 });
 
+// Update Password route.
+app.post('/api/update-password', async (req, res) => {
+  const { user, password } = req.body;
+  try {
+    const query = "UPDATE accounts SET password = $2 WHERE email = $1";
+    await db.query(query, [user, password]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
 // Opal Card Fares July 2022.
 const rates = [
   { minDistance: 0, rate: 3.79 },

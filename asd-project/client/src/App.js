@@ -182,6 +182,18 @@ function App() {
     return data.trips;
   }
 
+  async function UpdatePassword(user, password) {
+    const response = await fetch('http://localhost:8000/api/update-password', {
+      method: 'POST',
+      body: JSON.stringify({user, password}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <AdminContext.Provider value={admin}>
@@ -196,7 +208,7 @@ function App() {
             <Route path = '/record-trip' element = {
               <ProtectedRecordTrip Cards={Cards} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
-            <Route path = '/your-account' element = {<ProtectedYourAccount DeleteAccount={DeleteAccount}/>} />
+            <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount}/>} />
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
             <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
