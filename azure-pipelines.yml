@@ -36,7 +36,6 @@ steps:
   workingDirectory: ${{variables.serverPath}}
   displayName: 'npm install server'
 
-jobs:
 - job: Server
   pool:
     vmImage: 'windows-latest'
