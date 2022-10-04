@@ -118,6 +118,20 @@ app.post('/api/delete-accounts', async (req, res) => {
   }
 });
 
+//Delete user cards route.
+app.post('/api/delete-user-cards', async (req, res) => {
+  const {user} = req.body;
+  try {
+    const query = "DELETE FROM cards where email = $1";
+    const cards = await db.query(query, [user]);
+    res.json({ cards: cards.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // Cards route.
 app.post('/api/cards', async (req, res) => {
   const { user } = req.body;

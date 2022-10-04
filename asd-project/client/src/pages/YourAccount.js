@@ -5,7 +5,7 @@ import Button from "../components/Button"
 import LostStolenCard from "./LostStolenCard";
 import {Link} from 'react-router-dom';
 
-function YourAccount({DeleteAccount}) {
+function YourAccount({DeleteAccount, DeleteUserCards}) {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [errorMessage, setSuccessMessage] = useState("");
@@ -15,8 +15,10 @@ function YourAccount({DeleteAccount}) {
       setSuccessMessage("Your password has been updated!");
     }
 
+  //deletes user account and the cards the users has linked to account -- known issue -- trip history isnt removed if card num is same later.
   async function HandleDeleteAccount() {
     navigate('/home');
+    const deleteCards = await DeleteUserCards(user);
     const success = await DeleteAccount(user);
     if (!success) {
       errorMessage("Error. Unable to delete account.");
