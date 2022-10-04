@@ -37,6 +37,12 @@ steps:
   displayName: 'npm install server'
 
 - script: |
+    npm run dev
+    echo 'Done'
+  workingDirectory:  ${{variables.serverPath}}
+  displayName: 'npm run dev server'
+
+- script: |
     npm start
   workingDirectory:  ${{variables.projectPath}}
   displayName: 'npm start client'
@@ -45,7 +51,6 @@ steps:
     npm run dev
   workingDirectory:  ${{variables.serverPath}}
   displayName: 'npm run dev server'
-
     ./node_modules/.bin/cypress run --browser chrome
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
