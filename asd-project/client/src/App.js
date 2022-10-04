@@ -220,6 +220,18 @@ function App() {
     return data.success;
   }
 
+  async function LostStolen(card) {
+    const response = await fetch('http://localhost:8000/api/loststolen-card', {
+      method: 'POST',
+      body: JSON.stringify({card}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <AdminContext.Provider value={admin}>
@@ -238,7 +250,7 @@ function App() {
             <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards}/>} />
             <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
-            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
+            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen AllCards={AllCards} LostStolen={LostStolen}/>}/>
             <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>}/>
           </Routes>
         </BrowserRouter>

@@ -272,6 +272,19 @@ app.post('/api/deactivate-card', async (req, res) => {
   }
 });
 
+app.post('/api/loststolen-card', async (req, res) => {
+  const {card} = req.body;
+  try {
+    const query = "UPDATE cards SET lost = true WHERE cardnumber = $1";
+    await db.query(query, [card])
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
 // Opal Card Fares July 2022.
 const rates = [
   { minDistance: 0, rate: 3.79 },
