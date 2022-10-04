@@ -26,7 +26,6 @@ steps:
 
 - script: |
     npm install
-    npm run build
   displayName: 'npm install and build'
 
 - script: |
@@ -34,13 +33,13 @@ steps:
      workingDirectory: ${{variables.projectPath}}
      displayName: 'Run cypress tests'
 
-    - task: PublishTestResults@2
-        displayName: 'Publish test results'
-        inputs:
-          testResultsFormat: 'JUnit'
-          testResultsFiles: '*.xml'
-          searchFolder: 
-            '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
-          mergeTestResults: true
-          testRunTitle: 'Cypress tests'
+- task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '*.xml'
+      searchFolder: 
+        '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+      mergeTestResults: true
+      testRunTitle: 'Cypress tests'
 
