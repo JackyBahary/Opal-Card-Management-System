@@ -145,6 +145,18 @@ function App() {
     const data = await response.json();
     return data.stations;
   }
+
+  async function RecordTrip(card, fromStation, toStation, price) {
+    const response = await fetch('http://localhost:8000/api/record-trip', {
+      method: 'POST',
+      body: JSON.stringify({card, fromStation, toStation, price }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.success;
+  }
   
   async function GetPrice(fromStation, toStation) {
     const response = await fetch('http://localhost:8000/api/get-price', {
