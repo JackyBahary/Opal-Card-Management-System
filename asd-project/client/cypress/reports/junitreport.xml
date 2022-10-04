@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<testsuites failures="0" errors="0" tests="1" skipped="0">
+  <testsuite name="Root Suite" timestamp="2022-10-04T02:07:35" tests="0" file="cypress/integration/RecordTripTest.js" time="0.000" failures="0"/>
+  <testsuite name="Visiting Record Trips Page" timestamp="2022-10-04T02:07:35" tests="1" time="4.652" failures="0">
+    <testcase name="Visiting Record Trips Page visits" time="3.000" classname="visits"/>
+  </testsuite>
+</testsuites>
