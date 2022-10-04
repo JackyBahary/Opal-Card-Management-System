@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../App"
 import Button from "../components/Button"
-function LinkCard(addCard) {
+function LinkCard({addCard}) {
   const [cardNum, setCardNum] = useState("");
   const [cardName, setCardName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -9,7 +9,7 @@ function LinkCard(addCard) {
 
   // Handles the Add Card button click.
   async function HandleAddCard() {
-    const success = await addCard(cardNum, cardName, user);
+    const success = await addCard(parseInt(cardNum), cardName, user);
     if (!success) {
       setErrorMessage("Error. Unable to add card to your account.");
     }
