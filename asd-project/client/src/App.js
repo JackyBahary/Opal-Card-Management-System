@@ -121,18 +121,6 @@ function App() {
     return data.success;
   }
 
-  async function Deactivate(cardnumber) {
-    console.log("called" + cardnumber)
-    const response = await fetch('http://localhost:8000/api/deactivate', {
-      method: 'POST',
-      body: JSON.stringify({cardnumber}),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await response.json();
-    return data.success;
-  }
 
   async function GetPrice(fromStation, toStation) {
     const response = await fetch('http://localhost:8000/api/get-price', {

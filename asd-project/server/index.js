@@ -118,19 +118,6 @@ app.post('/api/record-trip', async (req, res) => {
   }
 });
 
-// Deactivate route.
-app.post('/api/deactivate', async (req, res) => {
-  const {cardnumber} = req.body;
-  try {
-    const balancequery = "UPDATE cards SET deactivated = 1 WHERE cardnumber = $1";
-    await db.query(balancequery, [cardnumber])
-  }
-  catch (err) {
-    console.error(err);
-    res.json({ success: false });
-  }
-});
-
 // GetPrice route.
 app.post('/api/get-price', async (req, res) => {
   const { fromStation, toStation } = req.body;
