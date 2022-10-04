@@ -26,10 +26,11 @@ steps:
 
 - script: |
     npm install
+  workingDirectory: ${{variables.projectPath}}
   displayName: 'npm install and build'
 
 - script: |
-    /node_modules/.bin/cypress run --browser chrome
+    ./node_modules/.bin/cypress run --browser chrome
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
 
