@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
 import { useAuth } from "../App"
 
-function LostStolenCard({ Cards, LostStolenCard }) {
+function LostStolenCard({ LostStolenCard, Cards }) {
   const navigate = useNavigate();
   const user = useAuth();
   const [cards, setCards] = useState([]);
   const [card, setCard] = useState();
-  const [errorMessage, setErrorMessage] = useState("");  
+  const [reported, setReported] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [clicked, setClicked] = useState(); 
   
   useEffect(() => {
     HandleCards()
@@ -26,6 +28,7 @@ function LostStolenCard({ Cards, LostStolenCard }) {
       setErrorMessage("Something went wrong");
     }
     else {
+      alert("Card has been reported.");
       navigate('/home');
     }
   }

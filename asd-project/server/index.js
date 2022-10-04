@@ -272,6 +272,34 @@ app.post('/api/deactivate-card', async (req, res) => {
   }
 });
 
+// SaveTrip route.
+app.post('/api/save-trip', async (req, res) => {
+  const { card, fromStation, toStation} = req.body;
+  try {
+    const query = "INSERT INTO trips(cardnumber, fromstation, tostation, datetime) VALUES ($1, $2, $3, $4)";
+    await db.query(query, [card, fromStation, toStation, new Date()]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error("err", err);
+    res.json({ success: false });
+  }
+});
+
+// SavedTrip route.
+app.post('/api/saved-trip', async (req, res) => {
+  const { card } = req.body;
+  try {
+    const query = "SELECT cardnumber, fromstation, tostation FROM trips WHERE cardnumber = $1";
+    const saved = await db.query(query, [card]);
+    res.json({ saved: saved.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // Opal Card Fares July 2022.
 const rates = [
   { minDistance: 0, rate: 3.79 },
@@ -282,4 +310,3 @@ const rates = [
 ]
 
 app.listen(8000);
-

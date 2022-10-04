@@ -28,7 +28,9 @@ function NavBar() {
             <Link to='/your-account'>
               <Button>Your Account</Button>
             </Link>
+            <Link to='/saved-trip'>
             <Button>Saved Trips</Button>
+            </Link>
           </span>
           <span className="justify-end space-x-2">
             <Link to = '/trip-history'>

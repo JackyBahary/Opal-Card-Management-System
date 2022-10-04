@@ -10,7 +10,8 @@ import TripHistory from "./pages/TripHistory";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { useState, useContext, createContext } from "react";
 import ProtectRoute from "./components/ProtectedRoute"
-//import SaveTrip from "./pages/SaveTrip";
+import SaveTrip from "./pages/SaveTrip";
+import SavedTrip from "./pages/SavedTrip";
 import AdminLostStolen from "./pages/Admin-lost-stolen";
 import AdminDeactivate from "./pages/Admin-deactivate";
 
@@ -34,6 +35,8 @@ const ProtectedLostStolenCard = ProtectRoute(LostStolenCard);
 const ProtectedTripHistory = ProtectRoute(TripHistory);
 const ProtectedAdminLostStolen = ProtectRoute(AdminLostStolen);
 const ProtectedAdminDeactivate = ProtectRoute(AdminDeactivate);
+const ProtectedSaveTrip = ProtectRoute(SaveTrip);
+const ProtectedSavedTrip = ProtectRoute(SavedTrip);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -151,7 +154,8 @@ function App() {
       }
     });
     const data = await response.json();
-    return data.success;
+    console.log(data);
+    return data.successs;
   }
 
   async function Stations() {
@@ -220,6 +224,32 @@ function App() {
     return data.success;
   }
 
+  async function SaveTrip(card, fromStation, toStation) {
+    const response = await fetch('http://localhost:8000/api/save-trip', {
+      method: 'POST',
+      body: JSON.stringify({card, fromStation, toStation}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    return data.success;
+  }
+
+  async function SavedTrip(card) {
+    const response = await fetch('http://localhost:8000/api/saved-trip', {
+      method: 'POST',
+      body: JSON.stringify({card}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    return data.saved;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <AdminContext.Provider value={admin}>
@@ -236,10 +266,15 @@ function App() {
             } />
             <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>} />
             <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards}/>} />
-            <Route path = '/lost-stolen-card' element = {<ProtectedLostStolenCard Cards={Cards} />} />
+            <Route path = '/lost-stolen-card' element = {
+            <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
             <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen/>}/>
             <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>}/>
+            <Route path = '/save-trip' element = {
+              <ProtectedSaveTrip Cards={Cards} Stations={Stations} SaveTrip={SaveTrip} /> } />
+              <Route path = '/saved-trip' element = {
+              <ProtectedSavedTrip Cards={Cards} SavedTrip={SavedTrip} /> } />
           </Routes>
         </BrowserRouter>
       </AdminContext.Provider>
