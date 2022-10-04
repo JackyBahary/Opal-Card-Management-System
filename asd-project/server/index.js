@@ -158,7 +158,6 @@ app.get('/api/stations', async (req, res) => {
   }
 });
 
-
 // RecordTrip route.
 app.post('/api/record-trip', async (req, res) => {
   const { card, fromStation, toStation, price } = req.body;
@@ -246,11 +245,12 @@ app.post('/api/update-password', async (req, res) => {
 });
 
 // Deactivate route.
-app.post('/api/deactivate', async (req, res) => {
-  const {cardnumber} = req.body;
+app.post('/api/deactivate-card', async (req, res) => {
+  const {card} = req.body;
   try {
-    const balancequery = "UPDATE cards SET deactivated = 1 WHERE cardnumber = $1";
-    await db.query(balancequery, [cardnumber])
+    const query = "UPDATE cards SET deactivated = true WHERE cardnumber = $1";
+    await db.query(query, [card])
+    res.json({ success: true });
   }
   catch (err) {
     console.error(err);

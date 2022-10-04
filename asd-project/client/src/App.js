@@ -194,10 +194,10 @@ function App() {
     return data.success;
   }
 
-  async function Deactivate(user, password) {
-    const response = await fetch('http://localhost:8000/api/update-password', {
+  async function Deactivate(card) {
+    const response = await fetch('http://localhost:8000/api/deactivate-card', {
       method: 'POST',
-      body: JSON.stringify({user, password}),
+      body: JSON.stringify({card}),
       headers: {
         'Content-Type': 'application/json'
       }

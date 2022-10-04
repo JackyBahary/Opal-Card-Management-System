@@ -6,6 +6,7 @@ import { useAuth } from "../App"
 function AdminDeactivate({AllCards, Deactivate}) {
   const [cards, setCards] = useState([]);
   const [card, setCard] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     HandleCards()
@@ -19,7 +20,12 @@ function AdminDeactivate({AllCards, Deactivate}) {
 
   async function HandleDeactivate() {
     const success = await Deactivate(card);
-
+    if (success) {
+      setErrorMessage("Card " + card + " Deactivated!");
+    }
+    else {
+      setErrorMessage("Error");
+    }
   }
 
   return (
@@ -27,7 +33,10 @@ function AdminDeactivate({AllCards, Deactivate}) {
       <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
         Deactivate Cards
       </p>
-        <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6">
+        {errorMessage && (
+        <div className="rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 b-2 text-white font-bold">{errorMessage}</div>
+        )}
+        <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6 py-2">
           <label className="text-white text-2xl p-8 w-100">Cards</label>
           <select className="rounded-l text-2xl w-max" 
           value={card} 
@@ -45,7 +54,7 @@ function AdminDeactivate({AllCards, Deactivate}) {
         <div className="w-full">
           <Button
           type='button' 
-          onClick={HandleDeactivate}>Record</Button>
+          onClick={HandleDeactivate}>Deactivate</Button>
         </div>
     </div>
   );
