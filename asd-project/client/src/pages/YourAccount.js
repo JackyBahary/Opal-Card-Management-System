@@ -2,7 +2,6 @@ import { useAuth } from "../App"
 import { useState, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
-import TopUpPage from "./TopUp";
 import LostStolenCard from "./LostStolenCard";
 import {Link} from 'react-router-dom';
 
@@ -12,6 +11,7 @@ function YourAccount({UpdatePassword, DeleteAccount, DeleteUserCards}) {
   const [errorMessage, setSuccessMessage] = useState("");
   const user = useAuth();
 
+  //updates the users account password 
   async function HandlePassword() {
     const success = await UpdatePassword(user, password);
     if (success) {
@@ -58,6 +58,7 @@ function YourAccount({UpdatePassword, DeleteAccount, DeleteUserCards}) {
       <div className="w-full">    
       <Button
         type='button' 
+        //calls handlepassword once the change password button has been selected
         onClick={HandlePassword}> Change Your Password</Button>
       </div>
 
