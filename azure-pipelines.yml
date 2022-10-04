@@ -17,10 +17,10 @@ variables:
 pool:
   vmImage: ubuntu-latest
 
-stages:
-  - compile
-  - test
-  - package
+# stages:
+#   - compile
+#   - test
+#   - package
 
 steps:
 - task: NodeTool@0
