@@ -59,7 +59,7 @@ steps:
     testResultsFormat: 'JUnit'
     testResultsFiles: '*.xml'
     searchFolder: 
-      '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+      '${{variables.projectPath}}/cypress/reports/junit'
     mergeTestResults: true
     testRunTitle: 'Cypress tests'
 
