@@ -33,18 +33,23 @@ steps:
   workingDirectory: ${{variables.serverPath}}
   displayName: 'npm install server'
 
-- script: |
-    npm run dev
-  workingDirectory:  ${{variables.serverPath}}
-  displayName: 'npm run dev server'
+# - script: |
+#     npm run dev
+#   workingDirectory:  ${{variables.serverPath}}
+#   displayName: 'npm run dev server'
 
 - script: |
     npm start
   workingDirectory:  ${{variables.projectPath}}
   displayName: 'npm start client'
 
+# - script: |
+#     ./node_modules/.bin/cypress run --browser chrome
+#   workingDirectory: ${{variables.projectPath}}
+#   displayName: 'Run cypress tests'
+
 - script: |
-    ./node_modules/.bin/cypress run --browser chrome
+    npm run cy:ci
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
 
