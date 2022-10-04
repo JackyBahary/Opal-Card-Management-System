@@ -4,11 +4,11 @@ const { Client } = require ('pg');
 
 // Create a database client object with the credentials.
 const db = new Client({
-  user: "uqjuvgsfwzolla",
-  password: "d0af2ee08b80c516f1a9499f8b485aacf7d15b31dfbc2fe91bc4b50696f5dcfd",
-  host: "ec2-99-81-16-126.eu-west-1.compute.amazonaws.com",
+  user: "dunquhfohtsoge",
+  password: "4a810e8f623bb4bc78942bed9d250144f3c46a5fa931d58422babe620cd62dc7",
+  host: "ec2-99-81-68-240.eu-west-1.compute.amazonaws.com",
   port: 5432,
-  database: "ddds5c3o6shtq6",
+  database: "d1mbmm9l6o2l02",
   ssl: { rejectUnauthorized: false }
 });
 
