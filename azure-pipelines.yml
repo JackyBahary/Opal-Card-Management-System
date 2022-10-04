@@ -50,6 +50,7 @@ steps:
 
 - script: |
     npm run cy:ci
+    npm run dev
   workingDirectory: ${{variables.projectPath}}
   displayName: 'Run cypress tests'
 
