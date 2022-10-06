@@ -122,7 +122,6 @@ function App() {
   }
 
   async function Cards(user) {
-    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/cards', {
       method: 'POST',
       body: JSON.stringify({ user }),
@@ -131,7 +130,7 @@ function App() {
       }
     });
     const data = await response.json();
-    return data.cards; //return the cards records from the response.json from server
+    return data.cards;
   }
 
   async function AllCards() {
@@ -160,14 +159,12 @@ function App() {
   }
 
   async function Stations() {
-    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/stations');
     const data = await response.json();
-    return data.stations; //return the stations rows from the response.json from server
+    return data.stations;
   }
 
   async function RecordTrip(card, fromStation, toStation, price) {
-    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/record-trip', {
       method: 'POST',
       body: JSON.stringify({card, fromStation, toStation, price }),
@@ -176,11 +173,10 @@ function App() {
       }
     });
     const data = await response.json();
-    return data.success; //return the success value from the response.json from server
+    return data.success;
   }
   
   async function GetPrice(fromStation, toStation) {
-    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/get-price', {
       method: 'POST',
       body: JSON.stringify({fromStation, toStation}),
@@ -189,11 +185,10 @@ function App() {
       }
     });
     const data = await response.json();
-    return data.price; //return the price value from the response.json from server
+    return data.price;
   }
 
   async function TripHistory(card) {
-    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/trip-history', {
       method: 'POST',
       body: JSON.stringify({card}),
@@ -202,7 +197,7 @@ function App() {
       }
     });
     const data = await response.json();
-    return data.trips; //return the trips records from the response.json from server
+    return data.trips;
   }
 
   async function UpdatePassword(user, password) {
