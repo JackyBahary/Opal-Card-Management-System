@@ -47,7 +47,7 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
       setErrorMessage("Error");
     }
     else {
-      navigate('/home');
+      setErrorMessage("Successfully Recorded")
     }
   }
 
@@ -60,12 +60,12 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
   //Return html content
   return (
     <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
-        {errorMessage && (
-            <div>{errorMessage}</div>
-        )}
         <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
             Record Recent Trip 
         </p>
+        {errorMessage && (
+            <div className="rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 b-2 text-white font-bold">{errorMessage}</div>
+        )}
         <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6">
             <label className="text-white text-2xl p-8 w-100">Cards</label>
             {/* map select tag with every index in 'cards' state */}
