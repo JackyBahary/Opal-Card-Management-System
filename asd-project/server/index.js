@@ -271,6 +271,19 @@ app.post('/api/deactivate-card', async (req, res) => {
     res.json({ success: false });
   }
 });
+//Stolen Card route
+app.post('/api/loststolen-card', async (req, res) => {
+  const {card} = req.body;
+  try {
+    const query = "UPDATE cards SET lost = true WHERE cardnumber = $1";
+    await db.query(query, [card])
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
 
 // SaveTrip route.
 app.post('/api/save-trip', async (req, res) => {
