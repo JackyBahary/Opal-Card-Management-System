@@ -13,6 +13,6 @@ describe('Visiting Trip History Page', () => {
       cy.contains('Trip History').click()
       cy.get('select').select('2173964')
       cy.contains('View History').click()
-      cy.get('tbody').find('tr').should('have.length', 13)
+      cy.get('tbody').find('tr').its('length').should('be.gt', 0)
     })
   })
