@@ -274,7 +274,7 @@ function App() {
             <Route path = '/lost-stolen-card' element = {
             <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
-            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen AllCards={AllCards} LostStolen={LostStolen}/>}/>
+            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen AllCards={AllCards} LostStolen={LostStolenCard}/>}/>
             <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>}/>
             <Route path = '/save-trip' element = {
               <ProtectedSaveTrip Cards={Cards} Stations={Stations} SaveTrip={SaveTrip} /> } />
