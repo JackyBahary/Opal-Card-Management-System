@@ -11,7 +11,7 @@ describe('Visiting Trip History Page', () => {
         cy.get('input').eq(1).type('jacky123')
         cy.get('button:first').click()
         cy.contains('Record Trip').click()
-        cy.get('select').eq(0).select(3)
+        cy.get('select').eq(0).select('2173964')
         cy.get('select').eq(1).select(0)
         cy.get('select').eq(2).select(2)
         cy.get('button').contains(/^Record$/).click()
