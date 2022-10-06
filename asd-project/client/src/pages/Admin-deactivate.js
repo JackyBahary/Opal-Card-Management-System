@@ -7,12 +7,10 @@ function AdminDeactivate({AllCards, Deactivate}) {
   const [cards, setCards] = useState([]);
   const [card, setCard] = useState();
   const [errorMessage, setErrorMessage] = useState("");
-  //triggers db card retrieval 
+
   useEffect(() => {
     HandleCards()
   }, [])
-
-//pulls all cards from the database and loads them to cards state
 
   async function HandleCards() {
     const cards = await AllCards();
@@ -20,15 +18,12 @@ function AdminDeactivate({AllCards, Deactivate}) {
     setCard(cards[0].cardnumber);
   }
 
-//Queries db to add lost/stolen flag to each card
-
   async function HandleDeactivate() {
     const success = await Deactivate(card);
     if (success) {
       setErrorMessage("Card " + card + " Deactivated!");
     }
     else {
-      //shows error message if change is unsuccessful
       setErrorMessage("Error");
     }
   }
@@ -45,13 +40,11 @@ function AdminDeactivate({AllCards, Deactivate}) {
           <label className="text-white text-2xl p-8 w-100">Cards</label>
           <select className="rounded-l text-2xl w-max" 
           value={card} 
-                    //sets the card object to the current value of the list
           onChange={e => setCard(parseInt(e.target.value))}
           >
             {
               cards.map((card) => {
                 return (
-                  //displays list of cards from db
                   <option key = {card.cardnumber} value={card.cardnumber}>{card.cardnumber}</option>
                 )
               })
@@ -61,7 +54,6 @@ function AdminDeactivate({AllCards, Deactivate}) {
         <div className="w-full">
           <Button
           type='button' 
-          //sends the current card number to the deactivate function, to be handled and sent off
           onClick={HandleDeactivate}>Deactivate</Button>
         </div>
     </div>

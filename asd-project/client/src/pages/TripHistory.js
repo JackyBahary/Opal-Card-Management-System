@@ -3,26 +3,22 @@ import Button from "../components/Button"
 import { useAuth } from "../App"
 
 function TripHistory({Cards, TripHistory}) {
-  //Create states and variables to use in component
   const user = useAuth();
   const [cards, setCards] = useState([]);
   const [trips, setTrips] = useState([]);
   const [card, setCard] = useState();
   const [clicked, setClicked] = useState();
 
-  //This is to call functions as page loads
   useEffect(() => {
     HandleCards()
   }, [])
 
-  //Handle function to get cards from DB
   async function HandleCards() {
     const cards = await Cards(user);
     setCards(cards);
     setCard(cards[0].cardnumber);
   }
 
-  //Handle function to get trips from DB
   async function HandleHistory() {
     const trips = await TripHistory(card);
     setTrips(trips);
@@ -36,7 +32,6 @@ function TripHistory({Cards, TripHistory}) {
         </p>
         <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6">
             <label className="text-white text-2xl p-8 w-100">Cards</label>
-            {/* map select tag with every index in 'cards' state */}
             <select className="rounded-l text-2xl w-max" 
             value={card} 
             onChange={e => {setCard(parseInt(e.target.value))
@@ -51,7 +46,7 @@ function TripHistory({Cards, TripHistory}) {
               }
             </select>
             <Button type='button'
-            onClick={HandleHistory}>View History</Button> {/*Call handle function when button is clicked*/}
+            onClick={HandleHistory}>View History</Button>
         </div>
         <p className="text-white text-center text-2xl p-8 w-100">Trips</p>
         {clicked && trips.length > 0 && (
@@ -68,7 +63,6 @@ function TripHistory({Cards, TripHistory}) {
               </tr>
             </thead>
             <tbody>
-              {/* map select tag with every index in 'trips' state */}
               {
                 trips.map((trips) => {
                   return (
