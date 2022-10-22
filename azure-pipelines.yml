@@ -146,10 +146,10 @@ steps:
   displayName: 'npm install'
   workingDirectory: $(directory)
  
- - task: Npm@1
-      inputs:
-        command: 'custom'
-        workingDir: 'build'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'build'
 
 - task: PublishBuildArtifacts@1
   inputs:
