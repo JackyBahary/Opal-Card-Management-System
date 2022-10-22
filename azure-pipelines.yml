@@ -59,7 +59,7 @@ stages:
 #   workingDirectory: ${{variables.projectPath}}
 #   displayName: 'Run cypress tests'
 
-- stage: 'Publish Test'
+- stage: 'Publish_Test'
   displayName: 'Publish Test'
   jobs: 
   - job: 'Publish'
