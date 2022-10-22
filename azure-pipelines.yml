@@ -41,6 +41,7 @@ stages:
     
     - script: |
         npm run build
+      workingDirectory: ${{variables.projectPath}}
       displayName: 'npm build'
 
 # # - script: |
