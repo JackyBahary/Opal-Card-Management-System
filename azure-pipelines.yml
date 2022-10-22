@@ -146,10 +146,11 @@ steps:
   displayName: 'npm install'
   workingDirectory: $(directory)
  
-- script: 
-    set "REACT_APP_STAGE=$(stage)" && run-script build
-  displayName: 'npm build'
-  workingDirectory: $(directory)
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: './asd-project/client'
+    customCommand: 'run build'
  
 - task: CopyFiles@2
   displayName: 'Copy files'
