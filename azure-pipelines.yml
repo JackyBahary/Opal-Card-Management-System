@@ -3,189 +3,123 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-# trigger:
-#   branches:
-#       include:
-#          - main
-
-# variables:
-#   - name: projectPath
-#     value: './asd-project/client/'
-#   - name: serverPath
-#     value: './asd-project/server/'
-
-# pool:
-#   vmImage: ubuntu-latest
-
-# stages:
-# - stage: 'Prerequisite'
-#   displayName: 'Prerequisite'
-#   jobs: 
-#   - job: 'Build'
-#     displayName: 'Build job'
-  
-#     steps:
-#     - task: NodeTool@0
-#       inputs:
-#         versionSpec: '10.x'
-#       displayName: 'Install Node.js'
-
-#     - script: |
-#         npm install
-#       workingDirectory: ${{variables.projectPath}}
-#       displayName: 'npm install client'
-
-#     - script: |
-#         npm install
-#       workingDirectory: ${{variables.serverPath}}
-#       displayName: 'npm install server'
-
-# - stage: 'Publish_Test'
-#   displayName: 'Publish Test'
-#   jobs: 
-#   - job: 'Publish'
-#     displayName: 'Publish Test'
-  
-#     steps:
-#     - task: PublishTestResults@2
-#       displayName: 'Publish test results'
-#       inputs:
-#         testResultsFormat: 'JUnit'
-#         testResultsFiles: '*.xml'
-#         searchFolder: 
-#           '${{variables.projectPath}}/cypress/reports/junit'
-#         mergeTestResults: true
-#         testRunTitle: 'Cypress tests'
-
-# - stage: 'Build'
-#   displayName: 'Build the web application'
-#   jobs: 
-#   - job: 'Build'
-#     displayName: 'Build job'
-#     pool:
-#       vmImage: 'ubuntu-20.04'
-#       demands:
-#       - npm
-
-#     variables:
-#       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-#       dotnetSdkVersion: '6.x'
-
-#     steps:
-#     - task: CopyFiles@2
-#       inputs:
-#         sourceFolder: '$(Build.SourcesDirectory)'
-#         contents: '*.tgz' 
-#         targetFolder: $(Build.ArtifactStagingDirectory)/npm
-#       displayName: 'Copy npm package'
-
-#     - task: CopyFiles@2
-#       inputs:
-#         sourceFolder: '$(Build.SourcesDirectory)'
-#         contents: 'package.json' 
-#         targetFolder: $(Build.ArtifactStagingDirectory)/npm
-#       displayName: 'Copy package.json'   
-
-#     - task: PublishPipelineArtifact@1
-#       inputs:
-#         targetPath: '$(Build.ArtifactStagingDirectory)/npm'
-#         artifactName: npm
-#       displayName: 'Publish npm artifact'
-
-#     # - publish: '$(Build.ArtifactStagingDirectory)'
-#     #   artifact: drop
-
-# - stage: 'Deploy'
-#   displayName: 'Deploy the web application'
-#   dependsOn: Build
-#   jobs:
-#   - deployment: Deploy
-#     pool:
-#       vmImage: 'ubuntu-20.04'
-#     environment: dev
-#     variables:
-#     - group: Release
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - download: current
-#             artifact: npm
-#           - task: AzureWebApp@1
-#             displayName: 'Azure App Service Deploy: website'
-#             inputs:
-#               azureSubscription: 'Opal Card Management System Release'
-#               appName: '$(WebAppName)'
-#               # package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-
-# Node.js with React
-# Build a Node.js project that uses React.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
- 
 trigger:
-- master
- 
-pool:
-  vmImage: 'windows-latest'
-# Set variables
-variables:
-  directory: ./asd-project/client/
-  stage: development
-  serviceConnection: Opal Card Management System Release
-  appServiceName: Opal-Card-Management-System
- 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
- 
-- script: 
-    npm install
-  displayName: 'npm install'
-  workingDirectory: $(directory)
- 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'run build'
+  branches:
+      include:
+         - main
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'build'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-    
-- task: CopyFiles@2
-  displayName: 'Copy files'
-  inputs:
-    sourceFolder: '$(directory)/build' 
-    Contents: '**/*'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    cleanTargetFolder: true
+variables:
+  - name: projectPath
+    value: './asd-project/client/'
+  - name: serverPath
+    value: './asd-project/server/'
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: 'Prerequisite'
+  displayName: 'Prerequisite'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+  
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm install
+      workingDirectory: ${{variables.projectPath}}
+      displayName: 'npm install client'
+
+    - script: |
+        npm install
+      workingDirectory: ${{variables.serverPath}}
+      displayName: 'npm install server'
+
+- stage: 'Publish_Test'
+  displayName: 'Publish Test'
+  jobs: 
+  - job: 'Publish'
+    displayName: 'Publish Test'
+  
+    steps:
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '*.xml'
+        searchFolder: 
+          '${{variables.projectPath}}/cypress/reports/junit'
+        mergeTestResults: true
+        testRunTitle: 'Cypress tests'
+
+- stage: 'Build'
+  displayName: 'Build the web application'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+    pool:
+      vmImage: 'ubuntu-20.04'
+      demands:
+      - npm
+
+    variables:
+      wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+      dotnetSdkVersion: '6.x'
+
+    steps:
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: '*.tgz' 
+        targetFolder: $(Build.ArtifactStagingDirectory)/npm
+      displayName: 'Copy npm package'
+
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: 'package.json' 
+        targetFolder: $(Build.ArtifactStagingDirectory)/npm
+      displayName: 'Copy package.json'   
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/npm'
+        artifactName: npm
+      displayName: 'Publish npm artifact'
+
+    # - publish: '$(Build.ArtifactStagingDirectory)'
+    #   artifact: drop
+
+- stage: 'Deploy'
+  displayName: 'Deploy the web application'
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-20.04'
+    environment: dev
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: npm
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: 'Opal Card Management System Release'
+              appName: '$(WebAppName)'
+              # package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+
  
-- task: ArchiveFiles@2
-  displayName: 'Archive files'
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-    includeRootFolder: false
-    archiveType: zip
-    archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-    replaceExistingArchive: true
- 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Build Artifacts'
-  inputs: 
-    pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
- 
-- task: AzureWebApp@1
-  displayName: 'Deploy to App Service'
-  inputs:
-    azureSubscription: '$(serviceConnection)'
-    appName: '$(appServiceName)'
-    appType: 'webApp'
-    package: '$(System.ArtifactsDirectory)/$(Build.BuildId).zip'
+
 
 
 
