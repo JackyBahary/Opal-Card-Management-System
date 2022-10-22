@@ -78,6 +78,7 @@ stages:
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
       dotnetSdkVersion: '6.x'
 
+    steps:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
