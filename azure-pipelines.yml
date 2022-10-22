@@ -147,7 +147,7 @@ steps:
   workingDirectory: $(directory)
  
 - script: 
-    set "REACT_APP_STAGE=$(stage)" && npm run build
+    set "REACT_APP_STAGE=$(stage)" && run-script build
   displayName: 'npm build'
   workingDirectory: $(directory)
  
