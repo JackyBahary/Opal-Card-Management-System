@@ -8,7 +8,6 @@ function LoginRegister({ Login, AdminLogin, Register }) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  //handle function for login -- show error when credentials are invalid
   async function HandleLogin() {
     const success = await Login(email, password);
     if (!success) {
@@ -37,7 +36,6 @@ function LoginRegister({ Login, AdminLogin, Register }) {
     }
   }
 
-  //html styling
   return (
     <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
       <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
