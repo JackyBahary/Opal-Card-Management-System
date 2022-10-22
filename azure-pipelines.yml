@@ -38,11 +38,6 @@ stages:
         npm install
       workingDirectory: ${{variables.serverPath}}
       displayName: 'npm install server'
-    
-    - script: |
-        npm run build
-      workingDirectory: ${{variables.projectPath}}
-      displayName: 'npm build'
 
 # # - script: |
 # #     npm run dev
