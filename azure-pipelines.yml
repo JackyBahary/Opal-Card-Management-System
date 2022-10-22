@@ -146,12 +146,17 @@ steps:
   displayName: 'npm install'
   workingDirectory: $(directory)
  
-- task: Npm@1
+ - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: 'build'
+
+- task: PublishBuildArtifacts@1
   inputs:
-    command: 'custom'
-    workingDir: './asd-project/client'
-    customCommand: 'run build'
- 
+    PathtoPublish: 'build'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+    
 - task: CopyFiles@2
   displayName: 'Copy files'
   inputs:
