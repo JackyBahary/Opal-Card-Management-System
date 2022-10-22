@@ -14,24 +14,30 @@ variables:
   - name: serverPath
     value: './asd-project/server/'
 
-pool:
-  vmImage: ubuntu-latest
+# pool:
+#   vmImage: ubuntu-latest
+stages:
+- stage: 'Prerequisite'
+  displayName: 'Prerequisite'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+  
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  - script: |
+      npm install
+    workingDirectory: ${{variables.projectPath}}
+    displayName: 'npm install client'
 
-- script: |
-    npm install
-  workingDirectory: ${{variables.projectPath}}
-  displayName: 'npm install client'
-
-- script: |
-    npm install
-  workingDirectory: ${{variables.serverPath}}
-  displayName: 'npm install server'
+  - script: |
+      npm install
+    workingDirectory: ${{variables.serverPath}}
+    displayName: 'npm install server'
 
 # # - script: |
 # #     npm run dev
@@ -53,15 +59,22 @@ steps:
 #   workingDirectory: ${{variables.projectPath}}
 #   displayName: 'Run cypress tests'
 
-- task: PublishTestResults@2
-  displayName: 'Publish test results'
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '*.xml'
-    searchFolder: 
-      '${{variables.projectPath}}/cypress/reports/junit'
-    mergeTestResults: true
-    testRunTitle: 'Cypress tests'
+- stage: 'Publish Test'
+  displayName: 'Publish Test'
+  jobs: 
+  - job: 'Publish'
+    displayName: 'Publish Test'
+  
+  steps:
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '*.xml'
+      searchFolder: 
+        '${{variables.projectPath}}/cypress/reports/junit'
+      mergeTestResults: true
+      testRunTitle: 'Cypress tests'
 
 - stage: 'Build'
   displayName: 'Build the web application'
