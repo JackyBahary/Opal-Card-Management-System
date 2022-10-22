@@ -63,7 +63,6 @@ steps:
     mergeTestResults: true
     testRunTitle: 'Cypress tests'
 
-stages:
 - stage: 'Build'
   displayName: 'Build the web application'
   jobs: 
