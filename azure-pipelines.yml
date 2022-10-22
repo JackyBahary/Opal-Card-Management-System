@@ -111,11 +111,11 @@ stages:
           steps:
           - download: current
             artifact: npm
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'Opal Card Management System Release'
-              appName: '$(WebAppName)'
+          # - task: AzureWebApp@1
+          #   displayName: 'Azure App Service Deploy: website'
+          #   inputs:
+          #     azureSubscription: 'Opal Card Management System Release'
+          #     appName: '$(WebAppName)'
               # package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
  
