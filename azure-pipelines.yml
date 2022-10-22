@@ -38,6 +38,10 @@ stages:
         npm install
       workingDirectory: ${{variables.serverPath}}
       displayName: 'npm install server'
+    
+    - script: |
+        npm run build
+      displayName: 'npm build'
 
 # # - script: |
 # #     npm run dev
@@ -91,23 +95,28 @@ stages:
       dotnetSdkVersion: '6.x'
 
     steps:
-    - task: DotNetCoreCLI@2
-      displayName: 'Build the project - $(buildConfiguration)'
+    - task: CopyFiles@2
       inputs:
-        command: 'build'
-        arguments: '--no-restore --configuration $(buildConfiguration)'
-        projects: '**/*.csproj'
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: '*.tgz' 
+        targetFolder: $(Build.ArtifactStagingDirectory)/npm
+      displayName: 'Copy npm package'
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish the project - $(buildConfiguration)'
+    - task: CopyFiles@2
       inputs:
-        command: 'publish'
-        projects: '**/*.csproj'
-        publishWebProjects: false
-        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-        zipAfterPublish: true
-    - publish: '$(Build.ArtifactStagingDirectory)'
-      artifact: drop
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: 'package.json' 
+        targetFolder: $(Build.ArtifactStagingDirectory)/npm
+      displayName: 'Copy package.json'   
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/npm'
+        artifactName: npm
+      displayName: 'Publish npm artifact'
+
+    # - publish: '$(Build.ArtifactStagingDirectory)'
+    #   artifact: drop
 
 - stage: 'Deploy'
   displayName: 'Deploy the web application'
@@ -124,7 +133,7 @@ stages:
         deploy:
           steps:
           - download: current
-            artifact: drop
+            artifact: npm
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: website'
             inputs:
