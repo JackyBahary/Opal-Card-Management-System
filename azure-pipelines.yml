@@ -150,6 +150,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'build'
+    customCommand: 'run build'
 
 - task: PublishBuildArtifacts@1
   inputs:
