@@ -19,7 +19,11 @@ function TopUp({UpdateBalance}) {
         else {
           setSuccessMessage("Failed to update balance!");
         }
-      }
+    }
+
+    async function HandleNavigate() {
+      navigate('/automatic-top-up');
+    }
 
     return (
       
@@ -47,6 +51,12 @@ function TopUp({UpdateBalance}) {
           onChange={e => setAmount(e.target.value)}
           //calls HandleTopUp on button select
           onClick={HandleTopUp}> Top Up</Button>
+        </div>
+
+        <div className="w-full">    
+        <Button
+          type='button' 
+          onClick={HandleNavigate}> Automatic Top Up</Button>
         </div>
       </div>
     );

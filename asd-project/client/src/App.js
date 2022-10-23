@@ -14,6 +14,7 @@ import SaveTrip from "./pages/SaveTrip";
 import SavedTrip from "./pages/SavedTrip";
 import AdminLostStolen from "./pages/Admin-lost-stolen";
 import AdminDeactivate from "./pages/Admin-deactivate";
+import AutomaticTopUp from "./pages/AutomaticTopUp";
 
 const AuthContext = createContext();
 const AdminContext = createContext();
@@ -37,6 +38,7 @@ const ProtectedAdminLostStolen = ProtectRoute(AdminLostStolen);
 const ProtectedAdminDeactivate = ProtectRoute(AdminDeactivate);
 const ProtectedSaveTrip = ProtectRoute(SaveTrip);
 const ProtectedSavedTrip = ProtectRoute(SavedTrip);
+const ProtectedAutomaticTopUp = ProtectRoute(AutomaticTopUp);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -271,6 +273,7 @@ function App() {
             } />
             <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>} />
             <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards}/>} />
+            <Route path = '/automatic-top-up' element = {<ProtectedAutomaticTopUp Cards={Cards}/>} />
             <Route path = '/lost-stolen-card' element = {
             <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
