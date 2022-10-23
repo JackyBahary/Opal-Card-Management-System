@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../App"
 import Button from "../components/Button"
 
-function AutomaticTopUp({Cards}) {
+function AutomaticTopUp({Cards, AutomaticTopUp}) {
     const [cards, setCards] = useState([]);
     const [card, setCard] = useState();
     const [clicked, setClicked] = useState();
@@ -19,6 +19,16 @@ function AutomaticTopUp({Cards}) {
     const cards = await Cards(user);
     setCards(cards);
     setCard(cards[0].cardnumber);
+  }
+
+  async function HandleAutomaticTopUp() {
+    const success = await AutomaticTopUp(card);
+    if (success) {
+        setSuccessMessage("Automatic Top Up has been set up!");
+      }
+      else {
+        setSuccessMessage("Failed to setup Automatic Top Up");
+      }
   }
 
   return (
@@ -42,8 +52,11 @@ function AutomaticTopUp({Cards}) {
                 })
               }
             </select>
+            <label className="text-white text-2xl p-8 w-100">Automatic Top Up Amount($):</label>
+            <input className="rounded-l text-2xl w-max"
+            />
             <Button type='button'
-            >Select Card</Button>{}
+            onClick={HandleAutomaticTopUp}>Set Up</Button> {/*calls HandleAutomaticTopUp function when button is clicked*/}
         </div>    
     </div>
   );

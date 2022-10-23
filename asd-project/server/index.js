@@ -191,6 +191,25 @@ app.post('/api/record-trip', async (req, res) => {
   }
 });
 
+//Automatic Top Up route.
+app.post('/api/automatic-top-up', async (req, res) => {
+  const {card} = req.body;
+  try {
+    const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
+    const balances = await db.query(balancequery, [card]);
+    if (balances.rows[0].balance < 20.0) {
+      const newBalance = balances.rows[0].balance + 20.0;
+      const updatequery = "UPDATE cards SET balance = $1 WHERE cardnumber = $2";
+      await db.query(updatequery, [newBalance, card]);
+    }
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
 // GetPrice route.
 app.post('/api/get-price', async (req, res) => {
   const { fromStation, toStation } = req.body;
