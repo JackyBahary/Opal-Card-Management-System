@@ -132,6 +132,20 @@ app.post('/api/delete-user-cards', async (req, res) => {
   }
 });
 
+// Passwords route.
+app.post('/api/password', async (req, res) => {
+  const { user } = req.body;
+  try {
+    const query = "SELECT password FROM accounts WHERE email = $1";
+    const passwords = await db.query(query, [user]);
+    res.json({ passwords: passwords.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 // Cards route.
 app.post('/api/cards', async (req, res) => {
   const { user } = req.body;

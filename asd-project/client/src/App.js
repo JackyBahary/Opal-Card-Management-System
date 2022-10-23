@@ -121,6 +121,19 @@ function App() {
     return data.success;
   }
 
+  async function Password(user) {
+    //get response from server in res.json
+    const response = await fetch('http://localhost:8000/api/password', {
+      method: 'POST',
+      body: JSON.stringify({ user }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.passwords; //return the cards records from the response.json from server
+  }
+
   async function Cards(user) {
     //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/cards', {
@@ -280,7 +293,7 @@ function App() {
             <Route path = '/add-card' element = {<ProtectedLinkCard addCard={addCard}/>} />
             <Route path = '/home' element = {<ProtectedHome/>} />
             <Route path = '/record-trip' element = {
-              <ProtectedRecordTrip Cards={Cards} Balance={Balance} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
+              <ProtectedRecordTrip Password={Password} Cards={Cards} Balance={Balance} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
             <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>} />
             <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards}/>} />
