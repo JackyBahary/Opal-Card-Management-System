@@ -146,6 +146,20 @@ app.post('/api/cards', async (req, res) => {
   }
 });
 
+// Cards Balance route.
+app.post('/api/card-balance', async (req, res) => {
+  const { card } = req.body;
+  try {
+    const query = "SELECT balance FROM cards WHERE cardnumber = $1";
+    const balances = await db.query(query, [card]);
+    res.json({ balances: balances.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
 //allcards route
 app.post('/api/allcards', async (req, res) => {
   try {

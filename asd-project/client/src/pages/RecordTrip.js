@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
 import { useAuth } from "../App"
 
-function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
+function RecordTrip({ Cards, Balance, Stations, RecordTrip, GetPrice}) {
   //Create states and variables to use in component
   const navigate = useNavigate(); //Create navigate component to navigate through pages
   const user = useAuth(); //Create variable storing user data from Context
   const [cards, setCards] = useState([]);
+  const [balance, setBalance] = useState();
   const [stations, setStations] = useState([]);
   const [card, setCard] = useState();
   const [fromStation, setFromStation] = useState("");
@@ -23,6 +24,7 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
 
   useEffect(() => {
     HandlePrice()
+    HandleBalance()
   }, )
 
   //Handle function to get cards from DB
@@ -30,6 +32,13 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
     const cards = await Cards(user);
     setCards(cards);
     setCard(cards[0].cardnumber);
+  }
+
+   //Handle function to get balance from selected card from DB
+   async function HandleBalance() {
+    const balances = await Balance(card);
+    console.log(card);
+    setBalance(balances[0].balance);
   }
 
   //Handle function to get stations from DB
@@ -48,6 +57,7 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
     }
     else {
       setErrorMessage("Successfully Recorded")
+      HandleBalance();
     }
   }
 
@@ -81,6 +91,7 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
                 })
               }
             </select>
+            <label className="text-white text-2xl p-8 w-100">Balance: {balance}</label>
         </div>
         <div className=" justify-self-center w-full grid-cols-2 pb-8">
             <label className="text-white text-2xl p-8 w-100">From Station</label>
@@ -121,7 +132,9 @@ function RecordTrip({ Cards, Stations, RecordTrip, GetPrice}) {
         <div className="w-full">
             <Button
             type='button' 
-            onClick={HandleRecord}>Record</Button> {/*calls Handle function when button is clicked*/}
+            onClick={() => {
+              HandleRecord();
+            }}>Record</Button> {/*calls Handle function when button is clicked*/}
         </div>
     </div>
   );
