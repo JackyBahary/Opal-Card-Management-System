@@ -244,8 +244,21 @@ function App() {
     return data.success;
   }
 
-  async function AutomaticTopUp(card) {
+  async function AutomaticTopUp(card, amount) {
     const response = await fetch('http://localhost:8000/api/automatic-top-up', {
+      method: 'POST',
+      body: JSON.stringify({card, amount}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    return data.success;
+  }
+
+  async function DisableTopUp(card) {
+    const response = await fetch('http://localhost:8000/api/disable-top-up', {
       method: 'POST',
       body: JSON.stringify({card}),
       headers: {
@@ -286,7 +299,7 @@ function App() {
             } />
             <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>} />
             <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards}/>} />
-            <Route path = '/automatic-top-up' element = {<ProtectedAutomaticTopUp Cards={Cards} AutomaticTopUp={AutomaticTopUp}/>} />
+            <Route path = '/automatic-top-up' element = {<ProtectedAutomaticTopUp Cards={Cards} AutomaticTopUp={AutomaticTopUp} DisableTopUp={DisableTopUp}/>} />
             <Route path = '/lost-stolen-card' element = {
             <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />} />
             <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>

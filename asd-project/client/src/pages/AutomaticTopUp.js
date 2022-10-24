@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../App"
 import Button from "../components/Button"
 
-function AutomaticTopUp({Cards, AutomaticTopUp}) {
+function AutomaticTopUp({Cards, AutomaticTopUp, DisableTopUp}) {
     const [cards, setCards] = useState([]);
     const [card, setCard] = useState();
+    const [amount, setAmount] = useState();
     const [clicked, setClicked] = useState();
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setSuccessMessage] = useState("");
     const user = useAuth();
 
    //This is to call functions as page loads
@@ -22,12 +23,22 @@ function AutomaticTopUp({Cards, AutomaticTopUp}) {
   }
 
   async function HandleAutomaticTopUp() {
-    const success = await AutomaticTopUp(card);
+    const success = await AutomaticTopUp(card, amount);
     if (success) {
         setSuccessMessage("Automatic Top Up has been set up!");
       }
       else {
         setSuccessMessage("Failed to setup Automatic Top Up");
+      }
+  }
+
+  async function HandleDisableTopUp() {
+    const success = await DisableTopUp(card);
+    if (success) {
+        setSuccessMessage("Automatic Top Up has been disabled on your card!");
+      }
+      else {
+        setSuccessMessage("Failed to disable Automatic Top Up on this card!");
       }
   }
 
@@ -53,10 +64,17 @@ function AutomaticTopUp({Cards, AutomaticTopUp}) {
               }
             </select>
             <label className="text-white text-2xl p-8 w-100">Automatic Top Up Amount($):</label>
-            <input className="rounded-l text-2xl w-max"
+            <input className="rounded-l text-2xl w-max" 
+              value={amount} 
+              onChange={e => setAmount(e.target.value)}
             />
             <Button type='button'
             onClick={HandleAutomaticTopUp}>Set Up</Button> {/*calls HandleAutomaticTopUp function when button is clicked*/}
+            <Button type='button'
+            onClick={HandleDisableTopUp}>Disable Feature</Button> {/*calls HandleDisableTopUp function when button is clicked*/}
+            {errorMessage && (
+              <div className="rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 b-2 text-white font-bold">{errorMessage}</div>
+            )}
         </div>    
     </div>
   );

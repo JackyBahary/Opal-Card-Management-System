@@ -178,7 +178,16 @@ app.post('/api/record-trip', async (req, res) => {
   try {
     const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
     const balances = await db.query(balancequery, [card]);
-    const newBalance = balances.rows[0].balance - price;
+    var newBalance = balances.rows[0].balance - price;
+    if (newBalance < 10.0) {
+      const topUp = "SELECT auto_set_up FROM cards WHERE cardnumber = $1";
+      const factor1 = await db.query(topUp, [card]);
+      if (factor1) {
+        const topUpAmount = "SELECT top_up_amount FROM cards where cardnumber = $1";
+        const amount = await db.query(topUpAmount, [card]);
+        newBalance += amount.rows[0].top_up_amount;
+      }
+    }
     const query = "INSERT INTO cardtrips (cardnumber, fromstation, tostation, date_time, balance, price) VALUES ($1, $2, $3, timeofday(), $4, $5)";
     await db.query(query, [card, fromStation, toStation, newBalance, price]);
     const updatequery = "UPDATE cards SET balance = $1 WHERE cardnumber = $2";
@@ -193,15 +202,28 @@ app.post('/api/record-trip', async (req, res) => {
 
 //Automatic Top Up route.
 app.post('/api/automatic-top-up', async (req, res) => {
+  const {card, amount} = req.body;
+  try {
+    const autoSetup = "UPDATE cards SET auto_set_up = true WHERE cardnumber = $1";
+    await db.query(autoSetup, [card]);
+    const setAutoAmount = "UPDATE cards SET top_up_amount = $1 WHERE cardnumber = $2";
+    await db.query(setAutoAmount, [amount, card])
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+//Disable Automatic Top Up route.
+app.post('/api/disable-top-up', async (req, res) => {
   const {card} = req.body;
   try {
-    const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
-    const balances = await db.query(balancequery, [card]);
-    if (balances.rows[0].balance < 20.0) {
-      const newBalance = balances.rows[0].balance + 20.0;
-      const updatequery = "UPDATE cards SET balance = $1 WHERE cardnumber = $2";
-      await db.query(updatequery, [newBalance, card]);
-    }
+    const autoDisable = "UPDATE cards SET auto_set_up = false WHERE cardnumber = $1";
+    await db.query(autoDisable, [card]);
+    const setAutoAmount = "UPDATE cards SET top_up_amount = 0 WHERE cardnumber = $1";
+    await db.query(setAutoAmount, [card])
     res.json({ success: true });
   }
   catch (err) {
