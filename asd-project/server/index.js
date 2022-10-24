@@ -67,22 +67,6 @@ app.post('/api/top-up', async (req, res) => {
   }
 });
 
-//Get Balance route.
-app.post('/api/get-balance', async (req, res) => {
-  const {card, amount} = req.body;
-  try {
-    const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
-    const balances = await db.query(balancequery, [card]);
-    await db.query(balancequery, [balances, card]);
-    return res.json({ balances});
-  }
-  catch (err) {
-    console.error(err);
-    res.json({ success: false });
-  }
-});
-
-
 // Register route.
 app.post('/api/register', async (req, res) => {
   const { email, password } = req.body;
@@ -97,16 +81,16 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-//Get Accounts.
-app.get('/api/accounts', async (req, res) => {
+// Add Card route.
+app.post('/api/addCard', async (req, res) => {
+  const { cardNum, cardName, user} = req.body;
   try {
-    const query = "SELECT * FROM accounts";
-    const accounts = await db.query(query);
-    res.json({ accounts: accounts.rows });
+    const query = "INSERT INTO cards (cardnumber, cardname, balance, email) VALUES ($1, $2, '0', $3)";
+    await db.query(query, [cardNum, cardName, user]);
+    res.json({ success: true });
   }
   catch (err) {
     console.error(err);
-    res.end();
   }
 });
 
@@ -267,6 +251,48 @@ app.post('/api/disable-top-up', async (req, res) => {
   }
 });
 
+// Update Password route.
+app.post('/api/update-password', async (req, res) => {
+  const { user, password } = req.body;
+  try {
+    const query = "UPDATE accounts SET password = $2 WHERE email = $1";
+    await db.query(query, [user, password]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+// Deactivate route.
+app.post('/api/deactivate-card', async (req, res) => {
+  const {card} = req.body;
+  try {
+    const query = "UPDATE cards SET deactivated = true WHERE cardnumber = $1";
+    await db.query(query, [card])
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+// SaveTrip route.
+app.post('/api/save-trip', async (req, res) => {
+  const { card, fromStation, toStation} = req.body;
+  try {
+    const query = "INSERT INTO trips(cardnumber, fromstation, tostation, datetime) VALUES ($1, $2, $3, $4)";
+    await db.query(query, [card, fromStation, toStation, new Date()]);
+    res.json({ success: true });
+  }
+  catch (err) {
+    console.error("err", err);
+    res.json({ success: false });
+  }
+});
+
 // GetPrice route.
 app.post('/api/get-price', async (req, res) => {
   const { fromStation, toStation } = req.body;
@@ -313,6 +339,20 @@ app.post('/api/loststolencard', async (req, res) => {
     const query = "SELECT cardnumber FROM cards WHERE cardnumber = $1";
     const success = await db.query(query, [card]);
     res.json({ successs: success.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+// SavedTrip route.
+app.post('/api/saved-trip', async (req, res) => {
+  const { card } = req.body;
+  try {
+    const query = "SELECT cardnumber, fromstation, tostation FROM trips WHERE cardnumber = $1";
+    const saved = await db.query(query, [card]);
+    res.json({ saved: saved.rows });
   }
   catch (err) {
     console.error(err);
