@@ -50,12 +50,15 @@ app.post('/api/admin-login', async (req, res) => {
   }
 });
 
-// Register route.
-app.post('/api/register', async (req, res) => {
-  const { email, password } = req.body;
+//Top Up route.
+app.post('/api/top-up', async (req, res) => {
+  const {card, amount} = req.body;
   try {
-    const query = "INSERT INTO accounts (email, password) VALUES ($1, $2)";
-    await db.query(query, [email, password]);
+    const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
+    const balances = await db.query(balancequery, [card]);
+    const newBalance = balances.rows[0].balance + amount;
+    const updatequery = "UPDATE cards SET balance = $1 WHERE cardnumber = $2";
+    await db.query(updatequery, [newBalance, card]);
     res.json({ success: true });
   }
   catch (err) {
@@ -64,12 +67,28 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Add Card route.
-app.post('/api/addCard', async (req, res) => {
-  const { cardNum, cardName, user} = req.body;
+//Get Balance route.
+app.post('/api/get-balance', async (req, res) => {
+  const {card, amount} = req.body;
   try {
-    const query = "INSERT INTO cards (cardnumber, cardname, balance, email) VALUES ($1, $2, '0', $3)";
-    await db.query(query, [cardNum, cardName, user]);
+    const balancequery = "SELECT balance FROM cards WHERE cardnumber = $1";
+    const balances = await db.query(balancequery, [card]);
+    await db.query(balancequery, [balances, card]);
+    return res.json({ balances});
+  }
+  catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+
+// Register route.
+app.post('/api/register', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const query = "INSERT INTO accounts (email, password) VALUES ($1, $2)";
+    await db.query(query, [email, password]);
     res.json({ success: true });
   }
   catch (err) {
@@ -91,19 +110,6 @@ app.get('/api/accounts', async (req, res) => {
   }
 });
 
-//Get all cards... temporary 
-app.get('/api/getCards', async (req, res) => {
-  try {
-    const query = "SELECT * FROM cards";
-    const cards = await db.query(query);
-    res.json({ cards: cards.rows });
-  }
-  catch (err) {
-    console.error(err);
-    res.end();
-  }
-});
-
 //Delete account route.
 app.post('/api/delete-accounts', async (req, res) => {
   const {user} = req.body;
@@ -111,20 +117,6 @@ app.post('/api/delete-accounts', async (req, res) => {
     const query = "DELETE FROM accounts where email = $1";
     const accounts = await db.query(query, [user]);
     res.json({ accounts: accounts.rows });
-  }
-  catch (err) {
-    console.error(err);
-    res.end();
-  }
-});
-
-//Delete user cards route.
-app.post('/api/delete-user-cards', async (req, res) => {
-  const {user} = req.body;
-  try {
-    const query = "DELETE FROM cards where email = $1";
-    const cards = await db.query(query, [user]);
-    res.json({ cards: cards.rows });
   }
   catch (err) {
     console.error(err);
@@ -171,6 +163,7 @@ app.get('/api/stations', async (req, res) => {
     res.end();
   }
 });
+
 
 // RecordTrip route.
 app.post('/api/record-trip', async (req, res) => {
@@ -244,75 +237,6 @@ app.post('/api/loststolencard', async (req, res) => {
   }
 });
 
-// Update Password route.
-app.post('/api/update-password', async (req, res) => {
-  const { user, password } = req.body;
-  try {
-    const query = "UPDATE accounts SET password = $2 WHERE email = $1";
-    await db.query(query, [user, password]);
-    res.json({ success: true });
-  }
-  catch (err) {
-    console.error(err);
-    res.json({ success: false });
-  }
-});
-
-// Deactivate route.
-app.post('/api/deactivate-card', async (req, res) => {
-  const {card} = req.body;
-  try {
-    const query = "UPDATE cards SET deactivated = true WHERE cardnumber = $1";
-    await db.query(query, [card])
-    res.json({ success: true });
-  }
-  catch (err) {
-    console.error(err);
-    res.json({ success: false });
-  }
-});
-//Stolen Card route
-app.post('/api/loststolen-card', async (req, res) => {
-  const {card} = req.body;
-  try {
-    const query = "UPDATE cards SET lost = true WHERE cardnumber = $1";
-    await db.query(query, [card])
-    res.json({ success: true });
-  }
-  catch (err) {
-    console.error(err);
-    res.json({ success: false });
-  }
-});
-
-// SaveTrip route.
-app.post('/api/save-trip', async (req, res) => {
-  const { card, fromStation, toStation} = req.body;
-  try {
-    const query = "INSERT INTO trips(cardnumber, fromstation, tostation, datetime) VALUES ($1, $2, $3, $4)";
-    await db.query(query, [card, fromStation, toStation, new Date()]);
-    res.json({ success: true });
-  }
-  catch (err) {
-    console.error("err", err);
-    res.json({ success: false });
-  }
-});
-
-// SavedTrip route.
-app.post('/api/saved-trip', async (req, res) => {
-  const { card } = req.body;
-  try {
-    const query = "SELECT cardnumber, fromstation, tostation FROM trips WHERE cardnumber = $1";
-    const saved = await db.query(query, [card]);
-    res.json({ saved: saved.rows });
-  }
-  catch (err) {
-    console.error(err);
-    res.end();
-  }
-});
-
 // Opal Card Fares July 2022.
 const rates = [
   { minDistance: 0, rate: 3.79 },
@@ -323,3 +247,4 @@ const rates = [
 ]
 
 app.listen(8000);
+

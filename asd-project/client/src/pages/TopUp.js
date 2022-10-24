@@ -3,7 +3,7 @@ import { useState, useContext, createContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button"
 
-function TopUp({Cards, UpdateBalance}) {
+function TopUp({Cards, TopUp}) {
     const navigate = useNavigate();
     const [amount, setAmount] = useState("");
     const [cards, setCards] = useState([]);
@@ -25,14 +25,14 @@ function TopUp({Cards, UpdateBalance}) {
 
     //updates users balance to old value + new value
     async function HandleTopUp() {
-        const success = await UpdateBalance(amount);
-        if (success) {
-          setSuccessMessage("Card balance has been updated!");
+      const success = await TopUp(card, amount);
+      if (success) {
+          setSuccessMessage("You have added $" + amount + " into your cards balance! (" + card + ")");
         }
         else {
-          setSuccessMessage("Failed to update balance!");
+          setSuccessMessage("Failed to Top Up");
         }
-      }
+    }
 
     return (
       
