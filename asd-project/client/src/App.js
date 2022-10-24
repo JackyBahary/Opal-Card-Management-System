@@ -331,23 +331,40 @@ function App() {
             <Route path = '/' element = {
               <LoginRegister Login={Login} AdminLogin={AdminLogin} Register={Register} />
             } />
-            <Route path = '/add-card' element = {<ProtectedLinkCard addCard={addCard}/>} />
+            <Route path = '/add-card' element = {
+              <ProtectedLinkCard addCard={addCard}/>
+            } />
             <Route path = '/home' element = {<ProtectedHome/>} />
             <Route path = '/record-trip' element = {
               <ProtectedRecordTrip Password={Password} Cards={Cards} Balance={Balance} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
-            <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>} />
-            <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards} TopUp={TopUp}/>} />
-            <Route path = '/automatic-top-up' element = {<ProtectedAutomaticTopUp Cards={Cards} AutomaticTopUp={AutomaticTopUp} DisableTopUp={DisableTopUp}/>} />
+            <Route path = '/your-account' element = {
+              <ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>
+            } />
+            <Route path = '/topup' element = {
+              <ProtectedTopUp Cards={Cards} TopUp={TopUp}/>
+            } />
+            <Route path = '/automatic-top-up' element = {
+              <ProtectedAutomaticTopUp Cards={Cards} AutomaticTopUp={AutomaticTopUp} DisableTopUp={DisableTopUp}/>
+            } />
             <Route path = '/lost-stolen-card' element = {
-            <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />} />
-            <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
-            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen AllCards={AllCards} LostStolen={LostStolenCard}/>}/>
-            <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>}/>
+              <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />
+            } />
+            <Route path = '/trip-history' element = {
+              <ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>
+            }/>
+            <Route path = '/admin-lost-stolen' element = {
+              <ProtectedAdminLostStolen AllCards={AllCards} LostStolen={LostStolenCard}/>
+            }/>
+            <Route path = '/deactivate-card' element = {
+              <ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>
+            }/>
             <Route path = '/save-trip' element = {
-              <ProtectedSaveTrip Cards={Cards} Stations={Stations} SaveTrip={SaveTrip} /> } />
-              <Route path = '/saved-trip' element = {
-              <ProtectedSavedTrip Cards={Cards} SavedTrip={SavedTrip} /> } />
+              <ProtectedSaveTrip Cards={Cards} Stations={Stations} SaveTrip={SaveTrip} /> 
+            } />
+            <Route path = '/saved-trip' element = {
+              <ProtectedSavedTrip Cards={Cards} SavedTrip={SavedTrip} /> 
+            } />
           </Routes>
         </BrowserRouter>
       </AdminContext.Provider>
