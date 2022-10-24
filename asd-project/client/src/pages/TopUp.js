@@ -5,7 +5,7 @@ import Button from "../components/Button"
 
 function TopUp({Cards, TopUp}) {
     const navigate = useNavigate();
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState();
     const [cards, setCards] = useState([]);
     const [card, setCard] = useState();
     const [errorMessage, setSuccessMessage] = useState("");
