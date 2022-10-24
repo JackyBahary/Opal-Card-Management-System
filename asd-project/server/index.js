@@ -132,20 +132,6 @@ app.post('/api/delete-user-cards', async (req, res) => {
   }
 });
 
-// Passwords route.
-app.post('/api/password', async (req, res) => {
-  const { user } = req.body;
-  try {
-    const query = "SELECT password FROM accounts WHERE email = $1";
-    const passwords = await db.query(query, [user]);
-    res.json({ passwords: passwords.rows });
-  }
-  catch (err) {
-    console.error(err);
-    res.end();
-  }
-});
-
 // Cards route.
 app.post('/api/cards', async (req, res) => {
   const { user } = req.body;
@@ -153,20 +139,6 @@ app.post('/api/cards', async (req, res) => {
     const query = "SELECT * FROM cards WHERE email = $1";
     const cards = await db.query(query, [user]);
     res.json({ cards: cards.rows });
-  }
-  catch (err) {
-    console.error(err);
-    res.end();
-  }
-});
-
-// Cards Balance route.
-app.post('/api/card-balance', async (req, res) => {
-  const { card } = req.body;
-  try {
-    const query = "SELECT balance FROM cards WHERE cardnumber = $1";
-    const balances = await db.query(query, [card]);
-    res.json({ balances: balances.rows });
   }
   catch (err) {
     console.error(err);
