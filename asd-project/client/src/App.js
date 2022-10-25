@@ -258,6 +258,7 @@ function App() {
   }
 
   async function SaveTrip(card, fromStation, toStation) {
+    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/save-trip', {
       method: 'POST',
       body: JSON.stringify({card, fromStation, toStation}),
@@ -267,7 +268,7 @@ function App() {
     });
     const data = await response.json();
     console.log(data);
-    return data.success;
+    return data.success; //pulls the success value from the response.json from server
   }
 
   async function AutomaticTopUp(card, amount) {
@@ -310,6 +311,7 @@ function App() {
   }
 
   async function SavedTrip(card) {
+    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/saved-trip', {
       method: 'POST',
       body: JSON.stringify({card}),
@@ -319,10 +321,11 @@ function App() {
     });
     const data = await response.json();
     console.log(data);
-    return data.saved;
+    return data.saved; //pulls the saved trip data from the response.json from server
   }
 
   async function DeleteSavedTrip(ids) {
+    //get response from server in res.json
     const response = await fetch('http://localhost:8000/api/saved-trip', {
       method: 'DELETE',
       body: JSON.stringify({ids}),
@@ -332,7 +335,7 @@ function App() {
     });
     const data = await response.json();
     console.log(data);
-    return data.success;
+    return data.success; //pulls the success value from the response.json from server
   }
 
   return (

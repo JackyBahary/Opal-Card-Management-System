@@ -346,7 +346,7 @@ app.post('/api/loststolencard', async (req, res) => {
   }
 });
 
-// SavedTrip route.
+// Saved Trip route.
 app.post('/api/saved-trip', async (req, res) => {
   const { card } = req.body;
   try {
@@ -360,6 +360,7 @@ app.post('/api/saved-trip', async (req, res) => {
   }
 });
 
+// Delete Trip Route
 app.delete('/api/saved-trip', async (req, res) => {
   const { ids } = req.body;
   console.log(ids);
