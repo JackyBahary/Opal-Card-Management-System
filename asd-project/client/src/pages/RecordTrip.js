@@ -173,7 +173,7 @@ function RecordTrip({ Password, Cards, Balance, Stations, RecordTrip, GetPrice})
       <Dialog open={open} onClose={handleToClose}>
         <DialogContent>
           <DialogContentText>
-            Password Verification
+            Password Verifications
           </DialogContentText>
           <TextField
             autoFocus
