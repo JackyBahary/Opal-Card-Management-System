@@ -34,6 +34,10 @@ function TopUp({Cards, TopUp}) {
         }
     }
 
+    async function HandleNavigate() {
+      navigate('/automatic-top-up');
+    }
+
     return (
       
       <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
@@ -43,7 +47,7 @@ function TopUp({Cards, TopUp}) {
         
         {errorMessage && (
         <div className="rounded-xl justify-end bg-gradient-to-r from-yellow-600 to-red-600 p-2 b-2 text-white font-bold">{errorMessage}</div>
-      )}
+        )}
         <div className=" justify-self-center w-full grid-cols-2 pb-8">
           <label className="text-white text-2xl p-8 w-100">Top Up Amount ($): </label>
           <input className="rounded-l text-2xl w-max"
@@ -55,30 +59,36 @@ function TopUp({Cards, TopUp}) {
         </div>
 
         <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
-        <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
-            Your Cards
-        </p>
-        <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6">
-            <label className="text-white text-2xl p-8 w-100">Cards</label>
-            {/* map select tag with every index in 'cards' state */}
-            <select className="rounded-l text-2xl w-max" 
-            value={card} 
-            onChange={e => {setCard(parseInt(e.target.value))
-            setClicked(false)}}
-            >
-              {
-                cards.map((card) => {
-                  return (
-                    <option key = {card.cardnumber} value={card.cardnumber}>{card.cardnumber}</option>
-                  )
-                })
-              }
-            </select>
-            <Button type='button'
-            onClick={HandleTopUp}>Top Up</Button> {/*Call handle function when button is clicked*/}
+          <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
+              Your Cards
+          </p>
+          <div className=" justify-self-center w-full grid-cols-2 pb-8 mt-6">
+              <label className="text-white text-2xl p-8 w-100">Cards</label>
+              {/* map select tag with every index in 'cards' state */}
+              <select className="rounded-l text-2xl w-max" 
+              value={card} 
+              onChange={e => {setCard(parseInt(e.target.value))
+              setClicked(false)}}
+              >
+                {
+                  cards.map((card) => {
+                    return (
+                      <option key = {card.cardnumber} value={card.cardnumber}>{card.cardnumber}</option>
+                    )
+                  })
+                }
+              </select>
+              <Button type='button'
+              onClick={HandleTopUp}>Top Up</Button> {/*Call handle function when button is clicked*/}
+          </div>
         </div>
+
+        <div className="w-full">    
+        <Button
+          type='button' 
+          onClick={HandleNavigate}> Automatic Top Up</Button>
         </div>
-        </div>
+      </div>
     );
     }
     export default TopUp;

@@ -14,6 +14,7 @@ import SaveTrip from "./pages/SaveTrip";
 import SavedTrip from "./pages/SavedTrip";
 import AdminLostStolen from "./pages/Admin-lost-stolen";
 import AdminDeactivate from "./pages/Admin-deactivate";
+import AutomaticTopUp from "./pages/AutomaticTopUp";
 
 const AuthContext = createContext();
 const AdminContext = createContext();
@@ -37,6 +38,7 @@ const ProtectedAdminLostStolen = ProtectRoute(AdminLostStolen);
 const ProtectedAdminDeactivate = ProtectRoute(AdminDeactivate);
 const ProtectedSaveTrip = ProtectRoute(SaveTrip);
 const ProtectedSavedTrip = ProtectRoute(SavedTrip);
+const ProtectedAutomaticTopUp = ProtectRoute(AutomaticTopUp);
 
 function App() {
   const [auth, setAuth] = useState();
@@ -268,10 +270,36 @@ function App() {
     return data.success;
   }
 
+  async function AutomaticTopUp(card, amount) {
+    const response = await fetch('http://localhost:8000/api/automatic-top-up', {
+      method: 'POST',
+      body: JSON.stringify({card, amount}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    return data.success;
+  }
+  
   async function TopUp(card, amount) {
     const response = await fetch('http://localhost:8000/api/top-up', {
       method: 'POST',
       body: JSON.stringify({card, amount}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    return data.success;
+  }
+
+  async function DisableTopUp(card) {
+    const response = await fetch('http://localhost:8000/api/disable-top-up', {
+      method: 'POST',
+      body: JSON.stringify({card}),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -303,22 +331,40 @@ function App() {
             <Route path = '/' element = {
               <LoginRegister Login={Login} AdminLogin={AdminLogin} Register={Register} />
             } />
-            <Route path = '/add-card' element = {<ProtectedLinkCard addCard={addCard}/>} />
+            <Route path = '/add-card' element = {
+              <ProtectedLinkCard addCard={addCard}/>
+            } />
             <Route path = '/home' element = {<ProtectedHome/>} />
             <Route path = '/record-trip' element = {
               <ProtectedRecordTrip Password={Password} Cards={Cards} Balance={Balance} Stations={Stations} RecordTrip={RecordTrip} GetPrice={GetPrice} />
             } />
-            <Route path = '/your-account' element = {<ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>} />
-            <Route path = '/topup' element = {<ProtectedTopUp Cards={Cards} TopUp={TopUp}/>} />
+            <Route path = '/your-account' element = {
+              <ProtectedYourAccount UpdatePassword={UpdatePassword} DeleteAccount={DeleteAccount} DeleteUserCards={DeleteUserCards}/>
+            } />
+            <Route path = '/topup' element = {
+              <ProtectedTopUp Cards={Cards} TopUp={TopUp}/>
+            } />
+            <Route path = '/automatic-top-up' element = {
+              <ProtectedAutomaticTopUp Cards={Cards} AutomaticTopUp={AutomaticTopUp} DisableTopUp={DisableTopUp}/>
+            } />
             <Route path = '/lost-stolen-card' element = {
-            <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />} />
-            <Route path = '/trip-history' element = {<ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>}/>
-            <Route path = '/admin-lost-stolen' element = {<ProtectedAdminLostStolen AllCards={AllCards} LostStolen={LostStolenCard}/>}/>
-            <Route path = '/deactivate-card' element = {<ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>}/>
+              <ProtectedLostStolenCard LostStolenCard={LostStolenCard} Cards={Cards} />
+            } />
+            <Route path = '/trip-history' element = {
+              <ProtectedTripHistory Cards={Cards} TripHistory={TripHistory}/>
+            }/>
+            <Route path = '/admin-lost-stolen' element = {
+              <ProtectedAdminLostStolen AllCards={AllCards} LostStolen={LostStolenCard}/>
+            }/>
+            <Route path = '/deactivate-card' element = {
+              <ProtectedAdminDeactivate AllCards={AllCards} Deactivate={Deactivate}/>
+            }/>
             <Route path = '/save-trip' element = {
-              <ProtectedSaveTrip Cards={Cards} Stations={Stations} SaveTrip={SaveTrip} /> } />
-              <Route path = '/saved-trip' element = {
-              <ProtectedSavedTrip Cards={Cards} SavedTrip={SavedTrip} /> } />
+              <ProtectedSaveTrip Cards={Cards} Stations={Stations} SaveTrip={SaveTrip} /> 
+            } />
+            <Route path = '/saved-trip' element = {
+              <ProtectedSavedTrip Cards={Cards} SavedTrip={SavedTrip} /> 
+            } />
           </Routes>
         </BrowserRouter>
       </AdminContext.Provider>
