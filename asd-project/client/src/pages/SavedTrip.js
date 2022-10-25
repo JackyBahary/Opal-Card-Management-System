@@ -3,14 +3,17 @@ import Button from "../components/Button"
 import { useAuth } from "../App"
 import SaveTrip from "./SaveTrip";
 import {Link} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-function SavedTrip({Cards, SavedTrip}) {
+function SavedTrip({Cards, SavedTrip, DeleteSavedTrip}) {
+  const navigate = useNavigate();
   const user = useAuth();
   const [cards, setCards] = useState([]);
   const [saved, setSaved] = useState([]);
   const [card, setCard] = useState();
   const [clicked, setClicked] = useState();
-  
+  const [ids, setIds] = useState([]);
+
   // Runs the function "HandleCards()".
   useEffect(() => {
     HandleCards()
@@ -32,11 +35,29 @@ function SavedTrip({Cards, SavedTrip}) {
     setClicked(true);
   }
 
-  // Line 45-59: A drag-down selector which allows the user to select their card number based on the data from the database.
-  // Line 60-61: A button that allows user to click if they have selected their card number.
-  // Line 65-88: Pulls the saved trip from SaveTrip database that the user has inputted. Their card number, from station and to station will be shown as an indicator.
-  // Line 90-94: Automatically pops out a message telling the user if they have not made any saved trip from their card number input.
-  // Line 95-100: A button that redirects user to save a new trip.
+  // Function to pull saved trip data from SaveTrip and delete the data when the button is clicked according to the selected saved trip data.
+  async function HandleDelete()
+  {
+    console.log(saved);
+    console.log(ids);
+    const DeletedSavedTrip = await DeleteSavedTrip(ids);
+    setIds([]);
+    HandleSaved();
+    if (!DeletedSavedTrip) { // If functions that detects if the user enters the correct input.
+      console.log(DeletedSavedTrip);
+    }
+    else {
+      console.log("success", DeletedSavedTrip)
+      alert("Trip(s) has been deleted."); // Alert that alerts user that they have successfully deleted trip.
+      navigate('/saved-trip'); // Navigates user back to saved trip
+    }
+  }
+
+  // Line 67-80: A drag-down selector which allows the user to select their card number based on the data from the database.
+  // Line 81-82: A button that allows user to click if they have selected their card number.
+  // Line 87-110: Pulls the saved trip from SaveTrip database that the user has inputted. Their card number, from station and to station will be shown as an indicator. *Line 101: Checkbox selectors that allow users to select more than 1 data. For delete data. 
+  // Line 116-118: Automatically pops out a message telling the user if they have not made any saved trip from their card number input.
+  // Line 120-128: A button that redirects user to save a new trip.
   return (
     <div className="container items-center align-center mx-auto w-1/2 bg-gray-900 rounded-xl shadow border p-8 m-10 mt-0">
         <p className="text-4xl text-white font-bold mb-5 text-center pb-8">
@@ -66,6 +87,7 @@ function SavedTrip({Cards, SavedTrip}) {
           <table className="text-white text-2xl p-8 w-100 table-auto content-evenly">
             <thead>
               <tr>
+                <th>Select</th>
                 <th>Card Number</th>
                 <th>From Station</th>
                 <th>To Station</th>
@@ -75,16 +97,19 @@ function SavedTrip({Cards, SavedTrip}) {
               {
                 saved.map((saved) => {
                   return (
-                    <tr>
-                      <td key = {saved.cardnumber} value={saved.cardnumber}>{saved.cardnumber}</td>
-                      <td key = {saved.fromstation} value={saved.fromstation}>{saved.fromstation}</td>
-                      <td key = {saved.tostation} value={saved.tostation}>{saved.tostation}</td>
+                    <tr key = {saved.id}>
+                      <td> <input type="checkbox" onChange={(e)=>e.target.checked ? setIds(prev=>[...prev, saved.id]): setIds (prev=>prev.filter( prev => prev !== saved.id))} value={saved.id}/> </td>
+                      <td value={saved.cardnumber}>{saved.cardnumber}</td>
+                      <td value={saved.fromstation}>{saved.fromstation}</td>
+                      <td value={saved.tostation}>{saved.tostation}</td>
                     </tr>
                   )
                 })
               }
             </tbody>
           </table>
+          <Button type='button'
+            onClick={HandleDelete}>Delete Saved Trip</Button>
         </div>
         )}
         {
@@ -95,7 +120,7 @@ function SavedTrip({Cards, SavedTrip}) {
         <div className="w-full mt-6">
         <Link to='/save-trip'>
           <Button>
-            Save Trip
+            Create a new save trip
           </Button>
         </Link>
         

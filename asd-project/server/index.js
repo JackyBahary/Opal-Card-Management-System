@@ -346,13 +346,28 @@ app.post('/api/loststolencard', async (req, res) => {
   }
 });
 
-// SavedTrip route.
+// Saved Trip route.
 app.post('/api/saved-trip', async (req, res) => {
   const { card } = req.body;
   try {
-    const query = "SELECT cardnumber, fromstation, tostation FROM trips WHERE cardnumber = $1";
+    const query = "SELECT id, cardnumber, fromstation, tostation FROM trips WHERE cardnumber = $1";
     const saved = await db.query(query, [card]);
     res.json({ saved: saved.rows });
+  }
+  catch (err) {
+    console.error(err);
+    res.end();
+  }
+});
+
+// Delete Trip Route
+app.delete('/api/saved-trip', async (req, res) => {
+  const { ids } = req.body;
+  console.log(ids);
+  try {
+    const query = "DELETE FROM trips where id = ANY($1::int[])";
+    const success = await db.query(query, [ids]);
+    res.json({ success: success.rows });
   }
   catch (err) {
     console.error(err);
