@@ -322,6 +322,19 @@ function App() {
     return data.saved;
   }
 
+  async function DeleteSavedTrip(ids) {
+    const response = await fetch('http://localhost:8000/api/saved-trip', {
+      method: 'DELETE',
+      body: JSON.stringify({ids}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    return data.success;
+  }
+
   return (
     <AuthContext.Provider value={auth}>
       <AdminContext.Provider value={admin}>
@@ -363,7 +376,7 @@ function App() {
               <ProtectedSaveTrip Cards={Cards} Stations={Stations} SaveTrip={SaveTrip} /> 
             } />
             <Route path = '/saved-trip' element = {
-              <ProtectedSavedTrip Cards={Cards} SavedTrip={SavedTrip} /> 
+              <ProtectedSavedTrip Cards={Cards} SavedTrip={SavedTrip} DeleteSavedTrip={DeleteSavedTrip}/> 
             } />
           </Routes>
         </BrowserRouter>

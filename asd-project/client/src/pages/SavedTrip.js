@@ -3,14 +3,17 @@ import Button from "../components/Button"
 import { useAuth } from "../App"
 import SaveTrip from "./SaveTrip";
 import {Link} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-function SavedTrip({Cards, SavedTrip}) {
+function SavedTrip({Cards, SavedTrip, DeleteSavedTrip}) {
+  const navigate = useNavigate();
   const user = useAuth();
   const [cards, setCards] = useState([]);
   const [saved, setSaved] = useState([]);
   const [card, setCard] = useState();
   const [clicked, setClicked] = useState();
-  
+  const [ids, setIds] = useState([]);
+
   // Runs the function "HandleCards()".
   useEffect(() => {
     HandleCards()
@@ -30,6 +33,23 @@ function SavedTrip({Cards, SavedTrip}) {
     console.log(savedTrip);
     setSaved(savedTrip);
     setClicked(true);
+  }
+
+  async function HandleDelete()
+  {
+    console.log(saved);
+    console.log(ids);
+    const DeletedSavedTrip = await DeleteSavedTrip(ids);
+    setIds([]);
+    HandleSaved();
+    if (!DeletedSavedTrip) {
+      console.log(DeletedSavedTrip);
+    }
+    else {
+      console.log("success", DeletedSavedTrip)
+      alert("Trip(s) has been deleted.");
+      navigate('/saved-trip');
+    }
   }
 
   // Line 45-59: A drag-down selector which allows the user to select their card number based on the data from the database.
@@ -75,16 +95,19 @@ function SavedTrip({Cards, SavedTrip}) {
               {
                 saved.map((saved) => {
                   return (
-                    <tr>
-                      <td key = {saved.cardnumber} value={saved.cardnumber}>{saved.cardnumber}</td>
-                      <td key = {saved.fromstation} value={saved.fromstation}>{saved.fromstation}</td>
-                      <td key = {saved.tostation} value={saved.tostation}>{saved.tostation}</td>
+                    <tr key = {saved.id}>
+                      <td value={saved.cardnumber}>{saved.cardnumber}</td>
+                      <td value={saved.fromstation}>{saved.fromstation}</td>
+                      <td value={saved.tostation}>{saved.tostation}</td>
+                      <td> <input type="checkbox" onChange={(e)=>e.target.checked ? setIds(prev=>[...prev, saved.id]): setIds (prev=>prev.filter( prev => prev !== saved.id))} value={saved.id}/> </td>
                     </tr>
                   )
                 })
               }
             </tbody>
           </table>
+          <Button type='button'
+            onClick={HandleDelete}>Delete Saved Trip</Button>
         </div>
         )}
         {
